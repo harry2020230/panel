@@ -7,23 +7,6 @@
     <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'">
     <title>代理节点管理面板</title>
     <style>
-        :root {
-            --color-bg-primary: #1e1e2e;
-            --color-bg-secondary: #2d2d3d;
-            --color-bg-tertiary: #374151;
-            --color-text-primary: #e0e0e0;
-            --color-text-secondary: #9ca3af;
-            --color-border: #4b5563;
-            --color-accent: #8b5cf6;
-            --color-accent-hover: #7c3aed;
-            --color-success: #10b981;
-            --color-warning: #f59e0b;
-            --color-error: #ef4444;
-            --color-info: #3b82f6;
-            --border-radius: 8px;
-            --transition: all 0.3s;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -33,7 +16,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 100%);
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             min-height: 100vh;
             padding: 20px;
         }
@@ -41,26 +24,19 @@
         .header {
             max-width: 1200px;
             margin: 0 auto 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
         }
 
         .header h1 {
             color: #e879f9;
             font-size: 36px;
             margin-bottom: 10px;
-            flex: 1;
-            min-width: 300px;
         }
 
         .stats {
             display: flex;
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            float: right;
+            margin-top: -50px;
         }
 
         .stat-item {
@@ -70,13 +46,12 @@
         .stat-number {
             font-size: 32px;
             font-weight: bold;
-            color: var(--color-text-primary);
+            color: #e0e0e0;
         }
 
         .stat-label {
             font-size: 12px;
-            color: var(--color-text-secondary);
-            margin-top: 4px;
+            color: #9ca3af;
         }
 
         .container {
@@ -84,76 +59,61 @@
             margin: 0 auto;
         }
 
-        .section {
-            background: var(--color-bg-secondary);
+        .input-section {
+            background: #2d2d3d;
             border-radius: 12px;
-            padding: 25px;
+            padding: 30px;
             margin-bottom: 30px;
         }
 
-        .input-section {
-            padding: 30px;
-        }
-
-        .section-header {
+        .input-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
-        .section-header h2 {
-            color: var(--color-text-primary);
+        .input-section h2 {
+            color: #e0e0e0;
             font-size: 18px;
             margin: 0;
-            flex: 1;
         }
 
-        .btn-group {
+        .input-controls {
             display: flex;
             gap: 15px;
-            flex-wrap: wrap;
         }
 
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             font-size: 14px;
             cursor: pointer;
             font-weight: 500;
-            transition: var(--transition);
-            white-space: nowrap;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: all 0.3s;
         }
 
         .btn-primary {
-            background: var(--color-accent);
+            background: #8b5cf6;
             color: white;
         }
 
         .btn-primary:hover {
-            background: var(--color-accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            background: #7c3aed;
         }
 
         .btn-secondary {
-            background: var(--color-bg-tertiary);
-            color: var(--color-text-primary);
+            background: #374151;
+            color: #e0e0e0;
         }
 
         .btn-secondary:hover {
-            background: var(--color-border);
+            background: #4b5563;
         }
 
         .btn-warning {
-            background: var(--color-warning);
+            background: #f59e0b;
             color: white;
         }
 
@@ -172,13 +132,14 @@
 
         .btn-info {
             background: transparent;
-            border: 1px solid var(--color-border);
-            color: var(--color-text-primary);
+            border: 1px solid #4b5563;
+            color: #e0e0e0;
             padding: 8px 12px;
+            white-space: nowrap;
         }
 
         .btn-info:hover {
-            background: var(--color-bg-tertiary);
+            background: #374151;
         }
 
         .btn:disabled {
@@ -186,115 +147,93 @@
             cursor: not-allowed;
         }
 
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 13px;
-            flex: 1;
-        }
-
         textarea {
             width: 100%;
             min-height: 150px;
-            background: var(--color-bg-primary);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
+            background: #1e1e2e;
+            border: 1px solid #4b5563;
+            border-radius: 8px;
             padding: 15px;
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             font-size: 13px;
-            font-family: 'Courier New', monospace;
+            font-family: monospace;
             resize: vertical;
-            transition: border-color 0.2s;
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--color-accent);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            border-color: #8b5cf6;
         }
 
-        input[type="text"],
-        input[type="number"] {
-            background: var(--color-bg-primary);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
-            color: var(--color-text-primary);
-            padding: 8px 10px;
-            font-size: 13px;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--color-accent);
-        }
-
-        .details-section {
-            background: var(--color-bg-secondary);
+        .core-section {
+            background: #2d2d3d;
             border-radius: 12px;
             padding: 15px 25px;
             margin-bottom: 30px;
         }
 
-        .details-section summary {
+        .core-section summary {
             cursor: pointer;
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             font-size: 14px;
             font-weight: 600;
-            user-select: none;
-            padding: 10px 0;
         }
 
-        .details-section summary:hover {
-            color: var(--color-accent);
-        }
-
-        .details-grid {
+        .core-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
 
-        .details-grid label {
+        .core-grid label {
             display: flex;
             flex-direction: column;
             gap: 6px;
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 12px;
         }
 
-        .details-check {
-            margin-top: 12px;
-            color: var(--color-text-primary);
+        .core-grid input {
+            background: #1e1e2e;
+            border: 1px solid #4b5563;
+            border-radius: 6px;
+            color: #e0e0e0;
+            padding: 8px 10px;
             font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .details-check input {
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
+        .core-grid input:focus {
+            outline: none;
+            border-color: #8b5cf6;
         }
 
-        .details-help {
+        .core-check {
+            margin-top: 12px;
+            color: #e0e0e0;
+            font-size: 13px;
+        }
+
+        .core-check input {
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        .core-help {
             margin-top: 15px;
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 12px;
             line-height: 1.8;
         }
 
-        .details-help code {
-            background: var(--color-bg-primary);
-            padding: 2px 6px;
+        .core-help code {
+            background: #1e1e2e;
+            padding: 1px 6px;
             border-radius: 4px;
-            font-family: monospace;
         }
 
         .filter-section {
-            background: var(--color-bg-secondary);
+            background: #2d2d3d;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
@@ -303,18 +242,17 @@
         .search-box {
             width: 100%;
             padding: 12px 15px 12px 40px;
-            background: var(--color-bg-primary);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius);
-            color: var(--color-text-primary);
+            background: #1e1e2e;
+            border: 1px solid #4b5563;
+            border-radius: 8px;
+            color: #e0e0e0;
             font-size: 14px;
             margin-bottom: 20px;
-            transition: border-color 0.2s;
         }
 
         .search-box:focus {
             outline: none;
-            border-color: var(--color-accent);
+            border-color: #8b5cf6;
         }
 
         .filter-group {
@@ -322,11 +260,10 @@
         }
 
         .filter-label {
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 14px;
             margin-bottom: 10px;
             display: block;
-            font-weight: 500;
         }
 
         .filter-tags {
@@ -337,21 +274,21 @@
 
         .tag {
             padding: 8px 16px;
-            background: var(--color-bg-tertiary);
+            background: #374151;
             border: 1px solid transparent;
             border-radius: 20px;
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             font-size: 13px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s;
         }
 
         .tag:hover {
-            background: var(--color-border);
+            background: #4b5563;
         }
 
         .tag.active {
-            background: var(--color-accent);
+            background: #8b5cf6;
             color: white;
         }
 
@@ -360,24 +297,16 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
         .nodes-count {
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 14px;
-        }
-
-        .nodes-count strong {
-            color: var(--color-text-primary);
-            font-weight: 600;
         }
 
         .nodes-actions {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
         .nodes-grid {
@@ -388,18 +317,16 @@
         }
 
         .node-card {
-            background: var(--color-bg-secondary);
+            background: #2d2d3d;
             border-radius: 12px;
             padding: 20px;
-            transition: var(--transition);
+            transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
-            border: 1px solid transparent;
         }
 
         .node-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-            border-color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
 
         .node-header {
@@ -412,16 +339,14 @@
         .node-flag {
             font-size: 24px;
             line-height: 1;
-            flex-shrink: 0;
         }
 
         .node-info {
             flex: 1;
-            min-width: 0;
         }
 
         .node-name {
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 4px;
@@ -429,7 +354,7 @@
         }
 
         .node-location {
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 12px;
         }
 
@@ -440,23 +365,22 @@
             font-weight: 600;
             text-transform: uppercase;
             margin-left: auto;
-            flex-shrink: 0;
-            background: var(--color-bg-tertiary);
+            background: #4b5563;
             color: white;
         }
 
-        .type-https { background: var(--color-info); }
-        .type-socks { background: var(--color-accent); }
-        .type-socks5 { background: var(--color-accent); }
-        .type-ss { background: var(--color-success); }
-        .type-ssr { background: var(--color-error); }
-        .type-trojan { background: var(--color-warning); }
-        .type-vless { background: var(--color-info); }
-        .type-vmess { background: var(--color-accent); }
-        .type-hysteria { background: #ec4899; }
-        .type-hysteria2 { background: #ec4899; }
-        .type-anytls { background: #06b6d4; }
-        .type-tuic { background: #a855f7; }
+        .type-https { background: #3b82f6; color: white; }
+        .type-socks { background: #8b5cf6; color: white; }
+        .type-socks5 { background: #8b5cf6; color: white; }
+        .type-ss { background: #10b981; color: white; }
+        .type-ssr { background: #ef4444; color: white; }
+        .type-trojan { background: #f59e0b; color: white; }
+        .type-vless { background: #3b82f6; color: white; }
+        .type-vmess { background: #8b5cf6; color: white; }
+        .type-hysteria { background: #ec4899; color: white; }
+        .type-hysteria2 { background: #ec4899; color: white; }
+        .type-anytls { background: #06b6d4; color: white; }
+        .type-tuic { background: #a855f7; color: white; }
 
         .node-latency {
             position: absolute;
@@ -467,7 +391,7 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s;
         }
 
         .node-latency:hover {
@@ -475,33 +399,33 @@
         }
 
         .latency-unknown {
-            background: var(--color-bg-tertiary);
-            color: var(--color-text-secondary);
+            background: #374151;
+            color: #9ca3af;
         }
 
         .latency-testing {
-            background: var(--color-info);
+            background: #3b82f6;
             color: white;
             animation: pulse 1.5s ease-in-out infinite;
         }
 
         .latency-excellent {
-            background: var(--color-success);
+            background: #10b981;
             color: white;
         }
 
         .latency-good {
-            background: var(--color-info);
+            background: #3b82f6;
             color: white;
         }
 
         .latency-fair {
-            background: var(--color-warning);
+            background: #f59e0b;
             color: white;
         }
 
         .latency-poor {
-            background: var(--color-error);
+            background: #ef4444;
             color: white;
         }
 
@@ -511,34 +435,42 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
         }
 
         .node-details {
             margin: 15px 0;
-            max-height: 200px;
-            overflow-y: auto;
         }
 
         .node-detail {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 8px;
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 13px;
             margin-bottom: 8px;
             word-break: break-all;
         }
 
         .node-detail-missing {
-            color: var(--color-warning);
+            color: #f59e0b;
         }
 
         .node-actions {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 13px;
         }
 
         .modal {
@@ -552,8 +484,6 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
         }
 
         .modal.active {
@@ -561,14 +491,13 @@
         }
 
         .modal-content {
-            background: var(--color-bg-secondary);
+            background: #2d2d3d;
             border-radius: 12px;
             padding: 30px;
             max-width: 500px;
-            width: 100%;
+            width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .modal-header {
@@ -576,169 +505,103 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            gap: 10px;
         }
 
         .modal-title {
             font-size: 18px;
-            color: var(--color-text-primary);
-            font-weight: 600;
+            color: #e0e0e0;
         }
 
         .modal-close {
             background: none;
             border: none;
-            color: var(--color-text-secondary);
-            font-size: 28px;
+            color: #9ca3af;
+            font-size: 24px;
             cursor: pointer;
-            flex-shrink: 0;
-            transition: color 0.2s;
-        }
-
-        .modal-close:hover {
-            color: var(--color-text-primary);
         }
 
         .modal-body {
-            color: var(--color-text-primary);
+            color: #e0e0e0;
         }
 
         .info-item {
             margin-bottom: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid var(--color-bg-tertiary);
+            border-bottom: 1px solid #374151;
         }
 
         .info-item:last-child {
             border-bottom: none;
-            margin-bottom: 0;
         }
 
         .info-label {
-            color: var(--color-text-secondary);
+            color: #9ca3af;
             font-size: 12px;
             margin-bottom: 5px;
-            font-weight: 500;
         }
 
         .info-value {
-            color: var(--color-text-primary);
+            color: #e0e0e0;
             font-size: 14px;
             word-break: break-all;
-            font-family: monospace;
-        }
-
-        .load-more-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .toast-error {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: var(--color-error);
-            color: white;
-            padding: 12px 18px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            z-index: 9999;
-            max-width: 380px;
-            font-size: 13px;
-            word-break: break-all;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
 
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .header h1 {
-                width: 100%;
-            }
-
             .stats {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .btn-group {
-                width: 100%;
-            }
-
-            .btn-group .btn {
-                flex: 1;
+                float: none;
+                margin-top: 20px;
             }
 
             .nodes-grid {
                 grid-template-columns: 1fr;
             }
 
+            .input-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .input-controls {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .input-controls .btn {
+                flex: 1;
+                min-width: 100px;
+            }
+
             .nodes-header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 15px;
             }
 
             .nodes-actions {
                 width: 100%;
+                flex-wrap: wrap;
             }
 
             .nodes-actions .btn {
                 flex: 1;
             }
-
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-
-            textarea {
-                min-height: 120px;
-            }
+        }
+        .toast-error {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #dc2626;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            max-width: 380px;
+            font-size: 13px;
+            word-break: break-all;
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            .section {
-                padding: 15px;
-            }
-
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .stat-number {
-                font-size: 24px;
-            }
-
-            .modal-content {
-                padding: 20px;
-            }
-
-            .node-card {
-                padding: 15px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -761,10 +624,10 @@
     </div>
 
     <div class="container">
-        <div class="section input-section">
-            <div class="section-header">
+        <div class="input-section">
+            <div class="input-header">
                 <h2>节点导入</h2>
-                <div class="btn-group">
+                <div class="input-controls">
                     <button class="btn btn-primary" onclick="parseNodes()">🔍 解析节点</button>
                     <button class="btn btn-secondary" onclick="clearInput()">📋 清空</button>
                     <button class="btn btn-secondary" onclick="showExample()">📝 示例</button>
@@ -773,9 +636,9 @@
             <textarea id="nodeInput" placeholder="粘贴节点文本...支持格式: https, socks, socks5, ss, ssr, trojan, vless, vmess, hysteria, hysteria2, anytls, tuic"></textarea>
         </div>
 
-        <details class="details-section">
+        <details class="core-section">
             <summary>🔥 真连接检测设置（本地 Mihomo / Clash 内核）</summary>
-            <div class="details-grid">
+            <div class="core-grid">
                 <label>API 地址
                     <input id="coreApi" placeholder="http://127.0.0.1:9090">
                 </label>
@@ -789,16 +652,20 @@
                     <input id="coreTestUrl" value="http://www.gstatic.com/generate_204">
                 </label>
             </div>
-            <div class="details-check">
-                <input type="checkbox" id="coreAutoProxy" checked>
-                <label for="coreAutoProxy" style="margin: 0; flex: 1;">检测完成后自动启用延迟最低的节点（代理流量经由该节点转发，mihomo 持续测速自动切换）</label>
+            <div class="core-check">
+                <label><input type="checkbox" id="coreAutoProxy" checked> 检测完成后自动启用延迟最低的节点（代理流量经由该节点转发，mihomo 持续测速自动切换）</label>
             </div>
-            <p class="details-help" style="margin-top: 10px;">
-                面板会把导入内核的节点快照保存在浏览器 localStorage，供页面重开后读取内存节点。
-                <button class="btn btn-info" onclick="clearCoreSnapshot()">🗑 清除内存节点快照</button>
+            <p class="core-help" style="margin-top: 10px;">
+                面板会把你导入内核的节点快照（含完整连接信息）保存在浏览器 localStorage（键 <code>core_importedNodes</code>），供页面重开后「🧠 读取内存节点」恢复。
+                <button class="btn btn-info" onclick="clearCoreSnapshot()" style="padding: 4px 10px; font-size: 12px;">🗑 清除内存节点快照</button>
             </p>
-            <p class="details-help">
-                背景：仅凭浏览器无法验证代理协议与账号——CDN 节点对任何请求都返回 200（假存活），而 SS、Reality、自签名证书、UDP 协议节点会被误判。真连接检测通过本地 Mihomo/Clash 内核实际发起代理请求，返回的延迟即节点真实可用性。需要本地运行内核并开启外部控制 API：mihomo/clash 默认 <code>http://127.0.0.1:9090</code>。
+            <p class="core-help">
+                背景：仅凭浏览器无法验证代理协议与账号——CDN 节点对任何请求都返回 200（假存活），
+                而 SS、Reality、自签名证书、UDP 协议节点会被误判。真连接检测通过本地 Mihomo/Clash 内核实际发起代理请求，返回的延迟即节点真实可用性。
+                需要本地运行内核并开启外部控制 API：mihomo/clash 默认 <code>http://127.0.0.1:9090</code>，Clash Verge Rev 默认 <code>http://127.0.0.1:9097</code>。
+                <b>注意：API 地址填“外部控制”端口，不是代理端口</b>——内核日志里 “Mixed proxy listening at: 127.0.0.1:7890” 的 7890 是代理入口，填它连不上；填错时点击检测会自动探测 9090 / 9097 并回填。
+                与内核同名同源的节点会直接检测、零干扰；其余节点经你确认后会临时导入内核（覆盖运行中配置，完成后在客户端重新启用订阅即可恢复）。
+                页面关闭重开后解析结果不会保留：点击节点列表右上角的「🧠 读取内存节点」即可恢复——面板每次把节点导入内核（或同名直测确认在内核内存中）时都会自动保存快照，恢复时与内核当前内存中的节点逐一核对，仍在内存中的节点还原完整连接信息。内核 API 不下发服务器地址等敏感信息，快照之外的节点仅显示名称与类型，此时可按提示选择内核的配置文件（config.yaml）按名称补全；节点文本是 Clash/Mihomo 配置格式时，粘贴到上方输入框点「解析节点」也能直接识别。
             </p>
         </details>
 
@@ -835,16 +702,16 @@
         <div class="nodes-header">
             <span class="nodes-count">显示 <strong id="displayedNodes">0</strong> 个节点</span>
             <div class="nodes-actions">
-                <button class="btn btn-primary" id="testCoreBtn" onclick="testAllViaCore()" title="通过本地 Mihomo/Clash 内核真实发起代理请求">🔥 真连接检测</button>
+                <button class="btn btn-primary" id="testCoreBtn" onclick="testAllViaCore()" title="通过本地 Mihomo/Clash 内核真实发起代理请求，结果即节点真实可用性">🔥 真连接测试</button>
                 <button class="btn btn-warning" id="toggleTimeoutBtn" onclick="toggleTimeoutNodes()">🚫 不显示超时节点</button>
                 <button class="btn btn-primary" onclick="copyAllNodes()">📋 复制全部</button>
-                <button class="btn btn-teal" id="loadCoreBtn" onclick="loadFromCore()" title="从运行中的内核读取节点">🧠 读取内存</button>
+                <button class="btn btn-teal" id="loadCoreBtn" onclick="loadFromCore()" title="从运行中的 mihomo 内核读取当前内存配置里的节点并恢复到面板。完整连接信息来自面板上次导入内核时自动保存的快照，并按内核当前节点列表逐一校验；内核 API 不提供服务器地址等敏感信息，快照之外的节点仅显示名称与类型">🧠 读取内存节点</button>
             </div>
         </div>
 
         <div class="nodes-grid" id="nodesGrid"></div>
 
-        <div class="load-more-container">
+        <div style="text-align: center; margin-bottom: 30px;">
             <button class="btn btn-info" id="loadMoreBtn" onclick="renderLimit += 500; renderNodes();" style="display: none;">⬇️ 加载更多</button>
         </div>
     </div>
@@ -860,39 +727,19 @@
     </div>
 
     <script>
-        // ==================== 配置 ====================
-        const RENDER_CAP = 500;
-        const COUNTRY_CODE_PATTERN = new RegExp('(^|[\\s\\-_\\|\\[\\]()#])('
-            + Object.keys(countryNames).filter(c => c !== 'UN').join('|')
-            + ')([\\s\\-_\\|\\[\\]()#]|$|\\d)');
-
-        // ==================== 状态管理 ====================
         let allNodes = [];
-        let activeFilters = { protocol: 'all', country: 'all' };
+        let activeFilters = {
+            protocol: 'all',
+            country: 'all'
+        };
         let testingLatency = false;
         let hideTimeoutNodes = false;
         let loadingFromCore = false;
+        // 大列表分批渲染：每次最多渲染 RENDER_CAP 张卡片，避免数千节点时 DOM 过重
+        const RENDER_CAP = 500;
         let renderLimit = RENDER_CAP;
 
-        // 国家代码及名称映射表
-        const countryNames = {
-            'CN': '中国', 'US': '美国', 'JP': '日本', 'GB': '英国', 'DE': '德国',
-            'FR': '法国', 'AU': '澳大利亚', 'CA': '加拿大', 'SG': '新加坡', 'HK': '香港',
-            'TW': '台湾', 'KR': '韩国', 'IN': '印度', 'BR': '巴西', 'MX': '墨西哥',
-            'EU': '欧盟', 'UK': '英国', 'UN': '未知'
-        };
-
-        const fieldTranslations = {
-            'type': '类型', 'name': '名称', 'server': '服务器', 'port': '端口',
-            'method': '加密方式', 'password': '密码', 'country': '国家',
-            'uuid': 'UUID', 'alterId': 'Alter ID', 'network': '传输协议',
-            'tls': 'TLS', 'encryption': '加密', 'flow': '流控',
-            'security': '传输层安全', 'sni': 'SNI', 'allowInsecure': '允许不安全',
-            'insecure': '允许不安全', 'auth': '认证', 'latency': '延迟',
-            'coreName': '内核节点名', 'plugin': 'SS插件'
-        };
-
-        // ==================== 工具函数 ====================
+        // 由 ISO 3166-1 两字母代码直接生成国旗 emoji，覆盖全球所有国家/地区
         function getCountryFlag(code) {
             if (code && /^[A-Z]{2}$/.test(code)) {
                 return String.fromCodePoint(...[...code].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
@@ -900,16 +747,127 @@
             return '🌐';
         }
 
+        // ISO 3166-1 alpha-2 → 中文名称（含节点常用的 EU/UK 惯用码）
+        const countryNames = {
+            'AC': '阿森松岛', 'AD': '安道尔', 'AE': '阿联酋', 'AF': '阿富汗', 'AG': '安提瓜和巴布达',
+            'AI': '安圭拉', 'AL': '阿尔巴尼亚', 'AM': '亚美尼亚', 'AO': '安哥拉', 'AR': '阿根廷',
+            'AS': '美属萨摩亚', 'AT': '奥地利', 'AU': '澳大利亚', 'AW': '阿鲁巴', 'AX': '奥兰群岛',
+            'AZ': '阿塞拜疆', 'BA': '波黑', 'BB': '巴巴多斯', 'BD': '孟加拉国', 'BE': '比利时',
+            'BF': '布基纳法索', 'BG': '保加利亚', 'BH': '巴林', 'BI': '布隆迪', 'BJ': '贝宁',
+            'BL': '圣巴泰勒米', 'BM': '百慕大', 'BN': '文莱', 'BO': '玻利维亚', 'BQ': '荷属加勒比区',
+            'BR': '巴西', 'BS': '巴哈马', 'BT': '不丹', 'BW': '博茨瓦纳', 'BY': '白俄罗斯',
+            'BZ': '伯利兹', 'CA': '加拿大', 'CD': '刚果（金）', 'CF': '中非', 'CG': '刚果（布）',
+            'CH': '瑞士', 'CI': '科特迪瓦', 'CK': '库克群岛', 'CL': '智利', 'CM': '喀麦隆',
+            'CN': '中国', 'CO': '哥伦比亚', 'CR': '哥斯达黎加', 'CU': '古巴', 'CV': '佛得角',
+            'CW': '库拉索', 'CX': '圣诞岛', 'CY': '塞浦路斯', 'CZ': '捷克', 'DE': '德国',
+            'DJ': '吉布提', 'DK': '丹麦', 'DM': '多米尼克', 'DO': '多米尼加', 'DZ': '阿尔及利亚',
+            'EC': '厄瓜多尔', 'EE': '爱沙尼亚', 'EG': '埃及', 'EH': '西撒哈拉', 'ER': '厄立特里亚',
+            'ES': '西班牙', 'ET': '埃塞俄比亚', 'EU': '欧盟', 'FI': '芬兰', 'FJ': '斐济',
+            'FK': '福克兰群岛', 'FM': '密克罗尼西亚', 'FO': '法罗群岛', 'FR': '法国', 'GA': '加蓬',
+            'GB': '英国', 'GD': '格林纳达', 'GE': '格鲁吉亚', 'GF': '法属圭亚那', 'GG': '根西岛',
+            'GH': '加纳', 'GI': '直布罗陀', 'GL': '格陵兰', 'GM': '冈比亚', 'GN': '几内亚',
+            'GP': '瓜德罗普', 'GQ': '赤道几内亚', 'GR': '希腊', 'GS': '南乔治亚和南桑威奇群岛', 'GT': '危地马拉',
+            'GU': '关岛', 'GW': '几内亚比绍', 'GY': '圭亚那', 'HK': '香港', 'HN': '洪都拉斯',
+            'HR': '克罗地亚', 'HT': '海地', 'HU': '匈牙利', 'ID': '印尼', 'IE': '爱尔兰',
+            'IL': '以色列', 'IM': '马恩岛', 'IN': '印度', 'IO': '英属印度洋领地', 'IQ': '伊拉克',
+            'IR': '伊朗', 'IS': '冰岛', 'IT': '意大利', 'JE': '泽西岛', 'JM': '牙买加',
+            'JO': '约旦', 'JP': '日本', 'KE': '肯尼亚', 'KG': '吉尔吉斯斯坦', 'KH': '柬埔寨',
+            'KI': '基里巴斯', 'KM': '科摩罗', 'KN': '圣基茨和尼维斯', 'KP': '朝鲜', 'KR': '韩国',
+            'KW': '科威特', 'KY': '开曼群岛', 'KZ': '哈萨克斯坦', 'LA': '老挝', 'LB': '黎巴嫩',
+            'LC': '圣卢西亚', 'LI': '列支敦士登', 'LK': '斯里兰卡', 'LR': '利比里亚', 'LS': '莱索托',
+            'LT': '立陶宛', 'LU': '卢森堡', 'LV': '拉脱维亚', 'LY': '利比亚', 'MA': '摩洛哥',
+            'MC': '摩纳哥', 'MD': '摩尔多瓦', 'ME': '黑山', 'MF': '法属圣马丁', 'MG': '马达加斯加',
+            'MH': '马绍尔群岛', 'MK': '北马其顿', 'ML': '马里', 'MM': '缅甸', 'MN': '蒙古',
+            'MO': '中国澳门', 'MP': '北马里亚纳', 'MQ': '马提尼克', 'MR': '毛里塔尼亚', 'MS': '蒙特塞拉特',
+            'MT': '马耳他', 'MU': '毛里求斯', 'MV': '马尔代夫', 'MW': '马拉维', 'MX': '墨西哥',
+            'MY': '马来西亚', 'MZ': '莫桑比克', 'NA': '纳米比亚', 'NC': '新喀里多尼亚', 'NE': '尼日尔',
+            'NF': '诺福克岛', 'NG': '尼日利亚', 'NI': '尼加拉瓜', 'NL': '荷兰', 'NO': '挪威',
+            'NP': '尼泊尔', 'NR': '瑙鲁', 'NU': '纽埃', 'NZ': '新西兰', 'OM': '阿曼',
+            'PE': '秘鲁', 'PF': '法属波利尼西亚', 'PG': '巴布亚新几内亚', 'PH': '菲律宾', 'PK': '巴基斯坦',
+            'PL': '波兰', 'PM': '圣皮埃尔和密克隆', 'PR': '波多黎各', 'PS': '巴勒斯坦', 'PT': '葡萄牙',
+            'PW': '帕劳', 'PY': '巴拉圭', 'QA': '卡塔尔', 'RE': '留尼汪', 'RO': '罗马尼亚',
+            'RS': '塞尔维亚', 'RU': '俄罗斯', 'RW': '卢旺达', 'SA': '沙特阿拉伯', 'SB': '所罗门群岛',
+            'SC': '塞舌尔', 'SD': '苏丹', 'SE': '瑞典', 'SG': '新加坡', 'SH': '圣赫勒拿',
+            'SI': '斯洛文尼亚', 'SJ': '斯瓦尔巴和扬马延', 'SK': '斯洛伐克', 'SL': '塞拉利昂', 'SM': '圣马力诺',
+            'SN': '塞内加尔', 'SO': '索马里', 'SR': '苏里南', 'SS': '南苏丹', 'ST': '圣多美和普林西比',
+            'SV': '萨尔瓦多', 'SX': '荷属圣马丁', 'SY': '叙利亚', 'SZ': '斯威士兰', 'TC': '特克斯和凯科斯群岛',
+            'TD': '乍得', 'TG': '多哥', 'TH': '泰国', 'TJ': '塔吉克斯坦', 'TK': '托克劳',
+            'TL': '东帝汶', 'TM': '土库曼斯坦', 'TN': '突尼斯', 'TO': '汤加', 'TR': '土耳其',
+            'TT': '特立尼达和多巴哥', 'TV': '图瓦卢', 'TW': '台湾', 'TZ': '坦桑尼亚', 'UA': '乌克兰',
+            'UG': '乌干达', 'UK': '英国', 'UM': '美属边远岛屿', 'US': '美国', 'UY': '乌拉圭',
+            'UZ': '乌兹别克斯坦', 'VA': '梵蒂冈', 'VC': '圣文森特和格林纳丁斯', 'VE': '委内瑞拉', 'VG': '英属维尔京群岛',
+            'VI': '美属维尔京群岛', 'VN': '越南', 'VU': '瓦努阿图', 'WF': '瓦利斯和富图纳', 'WS': '萨摩亚',
+            'XK': '科索沃', 'YE': '也门', 'YT': '马约特', 'ZA': '南非', 'ZM': '赞比亚',
+            'ZW': '津巴布韦', 'UN': '未知'
+        };
+
+        // 预编译国家代码匹配正则：两字母代码需为独立词（分隔符含常见符号）
+        const COUNTRY_CODE_RE = new RegExp('(^|[\\s\\-_\\|\\[\\]()#])('
+            + Object.keys(countryNames).filter(c => c !== 'UN').join('|')
+            + ')([\\s\\-_\\|\\[\\]()#]|$|\\d)');
+
+        const fieldTranslations = {
+            'type': '类型',
+            'name': '名称',
+            'server': '服务器',
+            'port': '端口',
+            'method': '加密方式',
+            'password': '密码',
+            'country': '国家',
+            'uuid': 'UUID',
+            'alterId': 'Alter ID',
+            'network': '传输协议',
+            'tls': 'TLS',
+            'encryption': '加密',
+            'flow': '流控',
+            'security': '传输层安全',
+            'sni': 'SNI',
+            'allowInsecure': '允许不安全',
+            'insecure': '允许不安全',
+            'auth': '认证',
+            'upmbps': '上传速度',
+            'downmbps': '下载速度',
+            'alpn': 'ALPN',
+            'peer': 'Peer',
+            'username': '用户名',
+            'protocol': '协议',
+            'obfs': '混淆',
+            'obfsParam': '混淆参数',
+            'path': '路径',
+            'latency': '延迟',
+            'congestion_control': '拥塞控制',
+            'udp_relay_mode': 'UDP中继模式',
+            'coreName': '内核节点名',
+            'plugin': 'SS插件',
+            'protocolParam': '协议参数',
+            'ports': '端口范围',
+            'token': '令牌（TUIC v4）',
+            'mode': '传输模式',
+            'pcs': '证书指纹'
+        };
+
+        /**
+         * 智能修复 UTF-8 被误解码为 Latin-1 的字符串
+         * 只修复损坏的部分，保留正常的 Unicode 字符（如 emoji）
+         */
         function fixUTF8Encoding(str) {
-            if (!str || typeof str !== 'string') return str;
+            if (!str || typeof str !== 'string') {
+                return str;
+            }
+
             try {
                 const hasLatin1Issues = /[\u00C0-\u00FF]/.test(str);
-                if (!hasLatin1Issues) return str;
+                
+                if (!hasLatin1Issues) {
+                    return str;
+                }
 
                 let result = '';
                 let i = 0;
+                
                 while (i < str.length) {
                     const charCode = str.charCodeAt(i);
+                    
                     if (charCode >= 0xD800 && charCode <= 0xDBFF && i + 1 < str.length) {
                         const nextCharCode = str.charCodeAt(i + 1);
                         if (nextCharCode >= 0xDC00 && nextCharCode <= 0xDFFF) {
@@ -918,6 +876,7 @@
                             continue;
                         }
                     }
+                    
                     if (charCode >= 0x00C0 && charCode <= 0x00FF) {
                         let brokenSequence = '';
                         let j = i;
@@ -926,21 +885,33 @@
                             if (code >= 0x0080 && code <= 0x00FF) {
                                 brokenSequence += str[j];
                                 j++;
-                            } else break;
+                            } else {
+                                break;
+                            }
                         }
+                        
                         try {
-                            const bytes = Array.from(brokenSequence).map(c => c.charCodeAt(0) & 0xFF);
-                            const fixed = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+                            const bytes = [];
+                            for (let k = 0; k < brokenSequence.length; k++) {
+                                bytes.push(brokenSequence.charCodeAt(k) & 0xFF);
+                            }
+                            const uint8Array = new Uint8Array(bytes);
+                            const textDecoder = new TextDecoder('utf-8');
+                            const fixed = textDecoder.decode(uint8Array);
+                            
                             if (fixed && fixed !== '\uFFFD' && !fixed.includes('\uFFFD')) {
                                 result += fixed;
                                 i = j;
                                 continue;
                             }
-                        } catch (e) {}
+                        } catch (e) {
+                        }
                     }
+                    
                     result += str[i];
                     i++;
                 }
+                
                 return result;
             } catch (e) {
                 console.error('UTF-8 fix error:', e);
@@ -948,10 +919,10 @@
             }
         }
 
-        // ==================== UI 事件 ====================
         function toggleTimeoutNodes() {
             hideTimeoutNodes = !hideTimeoutNodes;
             const btn = document.getElementById('toggleTimeoutBtn');
+            
             if (hideTimeoutNodes) {
                 btn.textContent = '✅ 显示超时节点';
                 btn.classList.remove('btn-warning');
@@ -961,18 +932,10 @@
                 btn.classList.remove('btn-secondary');
                 btn.classList.add('btn-warning');
             }
+            
             renderNodes();
         }
 
-        function clearInput() {
-            document.getElementById('nodeInput').value = '';
-        }
-
-        function closeModal() {
-            document.getElementById('detailModal').classList.remove('active');
-        }
-
-        // ==================== 节点解析 ====================
         function parseNodes() {
             const input = document.getElementById('nodeInput').value.trim();
             if (!input) {
@@ -981,19 +944,28 @@
             }
 
             allNodes = [];
-            const lines = input.split('\n').filter(line => line.trim());
-            
-            lines.forEach(line => {
-                const node = parseNodeLine(line.trim());
-                if (node) {
-                    node.latency = null;
-                    allNodes.push(node);
-                }
-            });
 
-            if (allNodes.length === 0) {
-                alert('未能解析出任何节点');
-                return;
+            if (/^\s*proxies:\s*(#.*)?$/m.test(input) || /^\s*proxies:\s*[\[{]/m.test(input)) {
+                // Clash/Mihomo 配置文本：解析顶层 proxies 列表
+                parseYamlProxies(input).forEach(p => {
+                    const node = clashProxyToNode(p);
+                    if (node) {
+                        node.latency = null;
+                        allNodes.push(node);
+                    }
+                });
+                if (allNodes.length === 0) {
+                    alert('已按 Clash/Mihomo 配置解析，但未能解析出任何节点');
+                }
+            } else {
+                const lines = input.split('\n').filter(line => line.trim());
+                lines.forEach(line => {
+                    const node = parseNodeLine(line.trim());
+                    if (node) {
+                        node.latency = null;
+                        allNodes.push(node);
+                    }
+                });
             }
 
             renderLimit = RENDER_CAP;
@@ -1006,190 +978,2742 @@
             try {
                 line = line.replace(/&amp;/g, '&');
                 
-                if (line.startsWith('ss://')) return parseSSNode(line);
-                if (line.startsWith('ssr://')) return parseSSRNode(line);
-                if (line.startsWith('vmess://')) return parseVMessNode(line);
-                if (line.startsWith('vless://')) return parseVLessNode(line);
-                if (line.startsWith('trojan://')) return parseTrojanNode(line);
-                if (line.startsWith('hysteria2://') || line.startsWith('hy2://')) return parseHysteriaNode(line, 'hysteria2');
-                if (line.startsWith('hysteria://')) return parseHysteriaNode(line, 'hysteria');
-                if (line.startsWith('tuic://')) return parseTuicNode(line);
-                if (line.startsWith('http://') || line.startsWith('https://')) return parseHttpProxyNode(line);
-                if (line.startsWith('socks5://') || line.startsWith('socks://')) return parseSocksNode(line);
+                if (line.startsWith('ss://')) {
+                    return parseSSNode(line);
+                }
+                else if (line.startsWith('ssr://')) {
+                    return parseSSRNode(line);
+                }
+                else if (line.startsWith('vmess://')) {
+                    return parseVMessNode(line);
+                }
+                else if (line.startsWith('vless://')) {
+                    return parseVLessNode(line);
+                }
+                else if (line.startsWith('trojan://')) {
+                    return parseTrojanNode(line);
+                }
+                else if (line.startsWith('hysteria2://') || line.startsWith('hy2://')) {
+                    return parseHysteriaNode(line, 'hysteria2');
+                }
+                else if (line.startsWith('hysteria://')) {
+                    return parseHysteriaNode(line, 'hysteria');
+                }
+                else if (line.startsWith('anytls://')) {
+                    return parseAnyTLSNode(line);
+                }
+                else if (line.startsWith('tuic://')) {
+                    return parseTuicNode(line);
+                }
+                else if (line.startsWith('socks://') || line.startsWith('socks5://')) {
+                    return parseSOCKSNode(line);
+                }
+                else if (line.startsWith('https://') || line.startsWith('http://')) {
+                    return parseHTTPNode(line);
+                }
             } catch (e) {
-                console.warn('Parse error:', line, e);
+                console.error('Parse error:', e, line);
             }
             return null;
         }
 
-        // ==================== 具体协议解析函数（需要保留原有实现）====================
-        function parseSSNode(line) { /* 原有实现 */ return null; }
-        function parseSSRNode(line) { /* 原有实现 */ return null; }
-        function parseVMessNode(line) { /* 原有实现 */ return null; }
-        function parseVLessNode(line) { /* 原有实现 */ return null; }
-        function parseTrojanNode(line) { /* 原有实现 */ return null; }
-        function parseHysteriaNode(line, type) { /* 原有实现 */ return null; }
-        function parseTuicNode(line) { /* 原有实现 */ return null; }
-        function parseHttpProxyNode(line) { /* 原有实现 */ return null; }
-        function parseSocksNode(line) { /* 原有实现 */ return null; }
+        function parseAnyTLSNode(line) {
+            try {
+                line = line.replace(/&amp;/g, '&');
+                
+                const hashIndex = line.indexOf('#');
+                let name = '';
+                let mainPart = line;
+                
+                if (hashIndex > -1) {
+                    name = decodeURIComponent(line.substring(hashIndex + 1));
+                    mainPart = line.substring(0, hashIndex);
+                }
+                
+                const questionIndex = mainPart.indexOf('?');
+                let serverPart = mainPart.substring(9);
+                let paramsStr = '';
+                
+                if (questionIndex > -1) {
+                    paramsStr = mainPart.substring(questionIndex + 1);
+                    serverPart = mainPart.substring(9, questionIndex);
+                }
+                
+                const atIndex = serverPart.indexOf('@');
+                const credentialsPart = serverPart.substring(0, atIndex);
+                const addressPart = serverPart.substring(atIndex + 1);
 
-        // ==================== 节点渲染 ====================
-        function renderNodes() {
-            const filtered = getFilteredNodes();
-            const displayed = filtered.slice(0, renderLimit);
-            
-            const grid = document.getElementById('nodesGrid');
-            grid.innerHTML = displayed.map((node, idx) => createNodeCard(node, idx)).join('');
-            
-            document.getElementById('displayedNodes').textContent = displayed.length;
-            document.getElementById('loadMoreBtn').style.display = 
-                filtered.length > renderLimit ? 'block' : 'none';
+                // 兼容 user:pass 与单密码两种 userinfo
+                let uuid = '', username = '', password = '';
+                const credColon = credentialsPart.indexOf(':');
+                if (credColon > -1) {
+                    try {
+                        username = decodeURIComponent(credentialsPart.substring(0, credColon));
+                        password = decodeURIComponent(credentialsPart.substring(credColon + 1));
+                    } catch (e) {
+                        username = credentialsPart.substring(0, credColon);
+                        password = credentialsPart.substring(credColon + 1);
+                    }
+                } else {
+                    uuid = credentialsPart;
+                }
+
+                const colonIndex = addressPart.lastIndexOf(':');
+                const server = addressPart.substring(0, colonIndex);
+                const port = addressPart.substring(colonIndex + 1);
+
+                const params = new URLSearchParams(paramsStr);
+
+                if (!name) {
+                    name = `AnyTLS-${server}`;
+                }
+
+                name = fixUTF8Encoding(name);
+
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+
+                return {
+                    type: 'anytls',
+                    name: name,
+                    server: server,
+                    port: port,
+                    ...(username ? { username: username, password: password } : { uuid: uuid }),
+                    sni: params.get('sni'),
+                    insecure: params.get('insecure'),
+                    alpn: params.get('alpn'),
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('AnyTLS parse error:', e, line);
+                return null;
+            }
         }
 
-        function getFilteredNodes() {
-            return allNodes.filter(node => {
-                if (hideTimeoutNodes && node.latency === 'timeout') return false;
-                if (activeFilters.protocol !== 'all' && node.type !== activeFilters.protocol) return false;
-                if (activeFilters.country !== 'all' && node.country !== activeFilters.country) return false;
+        function parseTuicNode(line) {
+            try {
+                line = line.replace(/&amp;/g, '&');
                 
-                const search = document.getElementById('searchBox').value.toLowerCase();
-                if (!search) return true;
+                const hashIndex = line.indexOf('#');
+                let name = '';
+                let mainPart = line;
                 
-                return (node.name?.toLowerCase().includes(search) ||
-                        node.server?.toLowerCase().includes(search) ||
-                        node.country?.toLowerCase().includes(search));
+                if (hashIndex > -1) {
+                    name = decodeURIComponent(line.substring(hashIndex + 1));
+                    mainPart = line.substring(0, hashIndex);
+                }
+                
+                const questionIndex = mainPart.indexOf('?');
+                let serverPart = mainPart.substring(7);
+                let paramsStr = '';
+                
+                if (questionIndex > -1) {
+                    paramsStr = mainPart.substring(questionIndex + 1);
+                    serverPart = mainPart.substring(7, questionIndex);
+                }
+                
+                const atIndex = serverPart.indexOf('@');
+                const credentialsPart = serverPart.substring(0, atIndex);
+                const addressPart = serverPart.substring(atIndex + 1);
+                
+                let uuid = '';
+                let password = '';
+                let token = '';
+                const colonIndex = credentialsPart.indexOf(':');
+                if (colonIndex > -1) {
+                    uuid = credentialsPart.substring(0, colonIndex);
+                    password = credentialsPart.substring(colonIndex + 1);
+                } else {
+                    // TUIC v4 老格式：无冒号的 userinfo 是共享 token
+                    token = credentialsPart;
+                }
+                
+                const portIndex = addressPart.lastIndexOf(':');
+                const server = addressPart.substring(0, portIndex);
+                const port = addressPart.substring(portIndex + 1);
+                
+                const params = new URLSearchParams(paramsStr);
+                
+                if (!name) {
+                    name = `TUIC-${server}`;
+                }
+                
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+                
+                return {
+                    type: 'tuic',
+                    name: name,
+                    server: server,
+                    port: port,
+                    ...(token ? { token: token } : { uuid: uuid, password: password }),
+                    sni: params.get('sni'),
+                    alpn: params.get('alpn'),
+                    congestion_control: params.get('congestion_control'),
+                    udp_relay_mode: params.get('udp-relay-mode'),
+                    insecure: params.get('insecure'),
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('TUIC parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseSSNode(line) {
+            try {
+                let name = '';
+                let mainPart = line;
+                
+                if (line.includes('#')) {
+                    const parts = line.split('#');
+                    mainPart = parts[0];
+                    name = decodeURIComponent(parts[1]);
+                }
+
+                // SIP002 插件参数：?plugin=obfs-local;obfs=http;obfs-host=xxx
+                let plugin = null, pluginOpts = null;
+                const pluginQuery = mainPart.indexOf('?');
+                if (pluginQuery > -1) {
+                    try {
+                        const params = new URLSearchParams(mainPart.substring(pluginQuery + 1));
+                        const pluginStr = params.get('plugin');
+                        if (pluginStr) {
+                            const segs = pluginStr.split(';');
+                            const pname = segs[0] || '';
+                            if (pname === 'obfs-local' || pname === 'simple-obfs') plugin = 'obfs';
+                            else if (pname) plugin = pname;
+                            pluginOpts = {};
+                            segs.slice(1).forEach(seg => {
+                                const i = seg.indexOf('=');
+                                if (i > -1) pluginOpts[seg.substring(0, i)] = seg.substring(i + 1);
+                                else if (seg) pluginOpts[seg] = '1';
+                            });
+                        }
+                    } catch (e) {
+                        console.error('SS plugin parse error:', e);
+                    }
+                    mainPart = mainPart.substring(0, pluginQuery);
+                }
+
+                const content = mainPart.substring(5);
+                
+                let server, port, method, password;
+                
+                if (content.includes('@')) {
+                    const atIndex = content.lastIndexOf('@');
+                    const encodedPart = content.substring(0, atIndex);
+                    const serverPart = content.substring(atIndex + 1);
+                    
+                    try {
+                        const decoded = atob(encodedPart);
+                        const colonIndex = decoded.indexOf(':');
+                        method = decoded.substring(0, colonIndex);
+                        password = decoded.substring(colonIndex + 1);
+                    } catch (e) {
+                        const colonIndex = encodedPart.indexOf(':');
+                        method = encodedPart.substring(0, colonIndex);
+                        password = encodedPart.substring(colonIndex + 1);
+                    }
+                    
+                    const colonIndex = serverPart.lastIndexOf(':');
+                    server = serverPart.substring(0, colonIndex);
+                    port = serverPart.substring(colonIndex + 1);
+                } else {
+                    const decoded = atob(content);
+                    const atIndex = decoded.lastIndexOf('@');
+                    const credentials = decoded.substring(0, atIndex);
+                    const serverPart = decoded.substring(atIndex + 1);
+                    
+                    const colonIndex = credentials.indexOf(':');
+                    method = credentials.substring(0, colonIndex);
+                    password = credentials.substring(colonIndex + 1);
+                    
+                    const portIndex = serverPart.lastIndexOf(':');
+                    server = serverPart.substring(0, portIndex);
+                    port = serverPart.substring(portIndex + 1);
+                }
+
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+                
+                const result = {
+                    type: 'ss',
+                    name: name || `SS-${server}`,
+                    server: server,
+                    port: port,
+                    method: method,
+                    password: password,
+                    raw: line,
+                    country: country
+                };
+                if (plugin) {
+                    result.plugin = plugin;
+                    result.pluginOpts = pluginOpts;
+                }
+                return result;
+            } catch (e) {
+                console.error('SS parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseSSRNode(line) {
+            try {
+                // SSR 规范使用 URL-safe base64，密码与 remarks 均需按 UTF-8 还原
+                const content = b64u8Decode(line.substring(6));
+
+                const mainPart = content.split('/?')[0];
+                const paramsPart = content.split('/?')[1] || '';
+
+                const parts = mainPart.split(':');
+                if (parts.length < 6) return null;
+                const passwordBase64 = parts.pop();
+                const obfs = parts.pop();
+                const method = parts.pop();
+                const protocol = parts.pop();
+                const port = parts.pop();
+                const server = parts.join(':');
+
+                let name = `SSR-${server}`;
+                let obfsParam = null, protocolParam = null;
+                if (paramsPart) {
+                    for (const param of paramsPart.split('&')) {
+                        const eq = param.indexOf('=');
+                        if (eq < 0) continue;
+                        const key = param.substring(0, eq);
+                        const value = param.substring(eq + 1);
+                        if (!value) continue;
+                        try {
+                            const decoded = b64u8Decode(value);
+                            if (key === 'remarks') name = decoded;
+                            else if (key === 'obfsparam') obfsParam = decoded;
+                            else if (key === 'protoparam') protocolParam = decoded;
+                        } catch (e) {
+                            console.error('SSR param decode error:', e);
+                        }
+                    }
+                }
+
+                const password = b64u8Decode(passwordBase64);
+
+                name = fixUTF8Encoding(name);
+
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+
+                const result = {
+                    type: 'ssr',
+                    name: name,
+                    server: server,
+                    port: port,
+                    protocol: protocol,
+                    method: method,
+                    obfs: obfs,
+                    password: password,
+                    raw: line,
+                    country: country
+                };
+                if (obfsParam) result.obfsParam = obfsParam;
+                if (protocolParam) result.protocolParam = protocolParam;
+                return result;
+            } catch (e) {
+                console.error('SSR parse error:', e);
+                return null;
+            }
+        }
+
+        function parseVMessNode(line) {
+            try {
+                let content = line.substring(8);
+                // 兼容带 #名称 片段的链接（名称在 ps/remarks 字段中，片段丢弃）
+                const fragmentIndex = content.indexOf('#');
+                if (fragmentIndex > -1) content = content.substring(0, fragmentIndex);
+                
+                if (content.includes('?')) {
+                    const questionIndex = content.indexOf('?');
+                    const base64Part = content.substring(0, questionIndex);
+                    const paramsStr = content.substring(questionIndex + 1);
+                    
+                    const decoded = atob(base64Part);
+                    const atIndex = decoded.lastIndexOf('@');
+                    const credsPart = decoded.substring(0, atIndex);
+                    const serverPart = decoded.substring(atIndex + 1);
+                    
+                    const colonIndex = credsPart.indexOf(':');
+                    const method = credsPart.substring(0, colonIndex);
+                    const uuid = credsPart.substring(colonIndex + 1);
+                    
+                    const portIndex = serverPart.lastIndexOf(':');
+                    const server = serverPart.substring(0, portIndex);
+                    const port = serverPart.substring(portIndex + 1);
+                    
+                    const params = new URLSearchParams(paramsStr);
+                    
+                    let name = params.get('remarks') || `VMess-${server}`;
+                    try {
+                        name = decodeURIComponent(name);
+                        name = fixUTF8Encoding(name);
+                    } catch (e) {
+                    }
+                    
+                    let country = extractCountryFromName(name);
+                    if (!country || country === 'UN') {
+                        country = guessCountry(server);
+                    }
+                    
+                    return {
+                        type: 'vmess',
+                        name: name,
+                        server: server,
+                        port: port,
+                        uuid: uuid,
+                        alterId: params.get('alterId') || '0',
+                        network: params.get('obfs') === 'websocket' ? 'ws' : params.get('obfs') || 'tcp',
+                        tls: params.get('tls') === '1' ? 'tls' : '',
+                        path: params.get('path') || '/',
+                        host: params.get('host'),
+                        sni: params.get('sni') || params.get('peer'),
+                        obfs: params.get('obfs'),
+                        obfsParam: params.get('obfsParam'),
+                        peer: params.get('peer'),
+                        method: method,
+                        raw: line,
+                        country: country
+                    };
+                } else {
+                    const decodedStr = atob(content);
+                    const decoded = JSON.parse(decodedStr);
+                    
+                    let name = decoded.ps || `VMess-${decoded.add}`;
+                    name = fixUTF8Encoding(name);
+                    
+                    let country = extractCountryFromName(name);
+                    if (!country || country === 'UN') {
+                        country = guessCountry(decoded.add);
+                    }
+                    
+                    return {
+                        type: 'vmess',
+                        name: name,
+                        server: decoded.add,
+                        port: decoded.port,
+                        uuid: decoded.id,
+                        alterId: decoded.aid,
+                        network: decoded.net,
+                        tls: decoded.tls,
+                        path: decoded.path,
+                        host: decoded.host,
+                        sni: decoded.sni,
+                        cipher: decoded.scy,
+                        raw: line,
+                        country: country
+                    };
+                }
+            } catch (e) {
+                console.error('VMess parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseVLessNode(line) {
+            try {
+                line = line.replace(/&amp;/g, '&');
+                
+                const hashIndex = line.indexOf('#');
+                let name = '';
+                let mainPart = line;
+                
+                if (hashIndex > -1) {
+                    name = decodeURIComponent(line.substring(hashIndex + 1));
+                    mainPart = line.substring(0, hashIndex);
+                }
+                
+                const questionIndex = mainPart.indexOf('?');
+                let serverPart = mainPart.substring(8);
+                let paramsStr = '';
+                
+                if (questionIndex > -1) {
+                    paramsStr = mainPart.substring(questionIndex + 1);
+                    serverPart = mainPart.substring(8, questionIndex);
+                }
+                
+                const atIndex = serverPart.indexOf('@');
+                const uuid = serverPart.substring(0, atIndex);
+                const addressPart = serverPart.substring(atIndex + 1);
+                
+                const colonIndex = addressPart.lastIndexOf(':');
+                const server = addressPart.substring(0, colonIndex);
+                const port = addressPart.substring(colonIndex + 1);
+                
+                const params = new URLSearchParams(paramsStr);
+                
+                if (!name) {
+                    name = `VLess-${server}`;
+                }
+                
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+                
+                return {
+                    type: 'vless',
+                    name: name,
+                    server: server,
+                    port: port,
+                    uuid: uuid,
+                    encryption: params.get('encryption') || 'none',
+                    flow: params.get('flow'),
+                    network: params.get('type'),
+                    security: params.get('security'),
+                    sni: params.get('sni'),
+                    host: params.get('host'),
+                    path: params.get('path'),
+                    pbk: params.get('pbk'),
+                    sid: params.get('sid'),
+                    fp: params.get('fp'),
+                    alpn: params.get('alpn'),
+                    serviceName: params.get('serviceName'),
+                    authority: params.get('authority'),
+                    mode: params.get('mode'),
+                    pcs: params.get('pcs'),
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('VLess parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseTrojanNode(line) {
+            try {
+                line = line.replace(/&amp;/g, '&');
+                
+                const hashIndex = line.indexOf('#');
+                let name = '';
+                let mainPart = line;
+                
+                if (hashIndex > -1) {
+                    name = decodeURIComponent(line.substring(hashIndex + 1));
+                    mainPart = line.substring(0, hashIndex);
+                }
+                
+                const questionIndex = mainPart.indexOf('?');
+                let serverPart = mainPart.substring(9);
+                let paramsStr = '';
+                
+                if (questionIndex > -1) {
+                    paramsStr = mainPart.substring(questionIndex + 1);
+                    serverPart = mainPart.substring(9, questionIndex);
+                }
+                
+                const atIndex = serverPart.indexOf('@');
+                let password = serverPart.substring(0, atIndex);
+                const addressPart = serverPart.substring(atIndex + 1);
+                
+                if (password.length > 20) {
+                    try {
+                        const decoded = atob(password);
+                        if (decoded.includes(':')) {
+                            password = decoded.split(':')[0];
+                        } else if (decoded.length > 10) {
+                            password = decoded;
+                        }
+                    } catch (e) {
+                    }
+                }
+                
+                const colonIndex = addressPart.lastIndexOf(':');
+                const server = addressPart.substring(0, colonIndex);
+                const port = addressPart.substring(colonIndex + 1);
+                
+                const params = new URLSearchParams(paramsStr);
+                
+                if (!name) {
+                    name = `Trojan-${server}`;
+                }
+                
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+                
+                return {
+                    type: 'trojan',
+                    name: name,
+                    server: server,
+                    port: port,
+                    password: password,
+                    sni: params.get('sni'),
+                    allowInsecure: params.get('allowInsecure'),
+                    insecure: params.get('insecure'),
+                    network: params.get('type'),
+                    path: params.get('path'),
+                    host: params.get('host'),
+                    serviceName: params.get('serviceName'),
+                    alpn: params.get('alpn'),
+                    pcs: params.get('pcs'),
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('Trojan parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseHysteriaNode(line, type) {
+            try {
+                line = line.replace(/&amp;/g, '&');
+                
+                let server, port, name, auth;
+                
+                if (type === 'hysteria2' || line.startsWith('hy2://')) {
+                    const hashIndex = line.indexOf('#');
+                    let mainPart = line;
+
+                    if (hashIndex > -1) {
+                        name = decodeURIComponent(line.substring(hashIndex + 1));
+                        mainPart = line.substring(0, hashIndex);
+                    }
+
+                    const questionIndex = mainPart.indexOf('?');
+                    // hysteria2:// 与 hy2:// 前缀长度不同，需动态计算
+                    const prefix = mainPart.startsWith('hysteria2://') ? 'hysteria2://' : 'hy2://';
+                    let serverPart = mainPart.substring(prefix.length);
+                    let paramsStr = '';
+
+                    if (questionIndex > -1) {
+                        paramsStr = mainPart.substring(questionIndex + 1);
+                        serverPart = mainPart.substring(prefix.length, questionIndex);
+                    }
+                    
+                    const atIndex = serverPart.indexOf('@');
+                    auth = serverPart.substring(0, atIndex);
+                    const addressPart = serverPart.substring(atIndex + 1);
+                    
+                    const colonIndex = addressPart.lastIndexOf(':');
+                    server = addressPart.substring(0, colonIndex);
+                    port = addressPart.substring(colonIndex + 1);
+                    
+                    const params = new URLSearchParams(paramsStr);
+                    
+                    if (!name) {
+                        name = `Hysteria2-${server}`;
+                    }
+                    
+                    name = fixUTF8Encoding(name);
+                    
+                    let country = extractCountryFromName(name);
+                    if (!country || country === 'UN') {
+                        country = guessCountry(server);
+                    }
+                    
+                    return {
+                        type: 'hysteria2',
+                        name: name,
+                        server: server,
+                        port: port,
+                        auth: auth,
+                        sni: params.get('sni'),
+                        obfs: params.get('obfs'),
+                        obfsPassword: params.get('obfs-password'),
+                        ports: params.get('mport') || params.get('ports'),
+                        alpn: params.get('alpn'),
+                        insecure: params.get('insecure'),
+                        raw: line,
+                        country: country
+                    };
+                } else {
+                    const hashIndex = line.indexOf('#');
+                    let mainPart = line;
+                    
+                    if (hashIndex > -1) {
+                        name = decodeURIComponent(line.substring(hashIndex + 1));
+                        mainPart = line.substring(0, hashIndex);
+                    }
+                    
+                    const questionIndex = mainPart.indexOf('?');
+                    let serverPart = mainPart.substring(11);
+                    let paramsStr = '';
+                    
+                    if (questionIndex > -1) {
+                        paramsStr = mainPart.substring(questionIndex + 1);
+                        serverPart = mainPart.substring(11, questionIndex);
+                    }
+                    
+                    const colonIndex = serverPart.lastIndexOf(':');
+                    server = serverPart.substring(0, colonIndex);
+                    port = serverPart.substring(colonIndex + 1);
+                    
+                    const params = new URLSearchParams(paramsStr);
+                    auth = params.get('auth') || params.get('auth_str');
+                    
+                    if (!name) {
+                        name = `Hysteria-${server}`;
+                    }
+                    
+                    name = fixUTF8Encoding(name);
+                    
+                    let country = extractCountryFromName(name);
+                    if (!country || country === 'UN') {
+                        country = guessCountry(server);
+                    }
+                    
+                    return {
+                        type: 'hysteria',
+                        name: name,
+                        server: server,
+                        port: port,
+                        auth: auth,
+                        upmbps: params.get('upmbps') || params.get('up'),
+                        downmbps: params.get('downmbps') || params.get('down'),
+                        alpn: params.get('alpn'),
+                        peer: params.get('peer'),
+                        obfs: params.get('obfs'),
+                        protocol: params.get('protocol'),
+                        insecure: params.get('insecure'),
+                        raw: line,
+                        country: country
+                    };
+                }
+            } catch (e) {
+                console.error('Hysteria parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseHTTPNode(line) {
+            try {
+                if (line.startsWith('https://')) {
+                    let content = line.substring(8);
+                    
+                    let name = '';
+                    const hashIndex = content.indexOf('#');
+                    if (hashIndex > -1) {
+                        name = decodeURIComponent(content.substring(hashIndex + 1));
+                        content = content.substring(0, hashIndex);
+                    }
+                    
+                    let paramsStr = '';
+                    const questionIndex = content.indexOf('?');
+                    if (questionIndex > -1) {
+                        paramsStr = content.substring(questionIndex + 1);
+                        content = content.substring(0, questionIndex);
+                    }
+                    
+                    const isBase64Format = /^[A-Za-z0-9+/=\-]+$/.test(content);
+                    
+                    if (isBase64Format && content.length > 30) {
+                        try {
+                            const decoded = atob(content);
+                            
+                            if (decoded.includes('@')) {
+                                const atIndex = decoded.indexOf('@');
+                                const passwordPart = decoded.substring(0, atIndex);
+                                const serverPart = decoded.substring(atIndex + 1);
+                                
+                                let password = passwordPart;
+                                if (passwordPart.includes(':')) {
+                                    password = passwordPart.split(':')[0];
+                                }
+                                
+                                const colonIndex = serverPart.lastIndexOf(':');
+                                const server = serverPart.substring(0, colonIndex);
+                                const port = serverPart.substring(colonIndex + 1);
+                                
+                                if (!name) {
+                                    name = `Trojan-${server}`;
+                                }
+                                
+                                name = fixUTF8Encoding(name);
+                                
+                                let country = extractCountryFromName(name);
+                                if (!country || country === 'UN') {
+                                    country = guessCountry(server);
+                                }
+                                const params = new URLSearchParams(paramsStr);
+                                
+                                return {
+                                    type: 'trojan',
+                                    name: name,
+                                    server: server,
+                                    port: port,
+                                    password: password,
+                                    sni: params.get('sni'),
+                                    allowInsecure: params.get('allowInsecure'),
+                                    network: params.get('type'),
+                                    raw: line,
+                                    country: country
+                                };
+                            }
+                        } catch (e) {
+                            console.error('Base64 decode error:', e);
+                        }
+                    }
+                    
+                    if (content.includes('@')) {
+                        const atIndex = content.indexOf('@');
+                        const credentialsPart = content.substring(0, atIndex);
+                        const serverPart = content.substring(atIndex + 1);
+                        
+                        let password = credentialsPart;
+                        try {
+                            const decoded = atob(credentialsPart);
+                            if (decoded.includes(':')) {
+                                password = decoded.split(':')[0];
+                            } else {
+                                password = decoded;
+                            }
+                        } catch (e) {
+                        }
+                        
+                        const colonIndex = serverPart.lastIndexOf(':');
+                        const server = serverPart.substring(0, colonIndex);
+                        const port = serverPart.substring(colonIndex + 1);
+                        
+                        if (!name) {
+                            name = `Trojan-${server}`;
+                        }
+                        
+                        name = fixUTF8Encoding(name);
+                        
+                        let country = extractCountryFromName(name);
+                        if (!country || country === 'UN') {
+                            country = guessCountry(server);
+                        }
+                        const params = new URLSearchParams(paramsStr);
+                        
+                        return {
+                            type: 'trojan',
+                            name: name,
+                            server: server,
+                            port: port,
+                            password: password,
+                            sni: params.get('sni'),
+                            allowInsecure: params.get('allowInsecure'),
+                            network: params.get('type'),
+                            raw: line,
+                            country: country
+                        };
+                    }
+                }
+                
+                const url = new URL(line);
+                
+                let name = decodeURIComponent(url.hash.slice(1)) || `HTTPS-${url.hostname}`;
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(url.hostname);
+                }
+                
+                return {
+                    type: 'https',
+                    secure: line.startsWith('https:'),
+                    name: name,
+                    server: url.hostname,
+                    port: url.port || (line.startsWith('https') ? '443' : '80'),
+                    username: url.username,
+                    password: url.password,
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('HTTP parse error:', e, line);
+                return null;
+            }
+        }
+
+        function parseSOCKSNode(line) {
+            try {
+                const isSocks5 = line.startsWith('socks5://');
+                const type = isSocks5 ? 'socks5' : 'socks';
+                const prefix = isSocks5 ? 'socks5://' : 'socks://';
+                
+                const hashIndex = line.indexOf('#');
+                let name = '';
+                let mainPart = line;
+                
+                if (hashIndex > -1) {
+                    name = decodeURIComponent(line.substring(hashIndex + 1));
+                    mainPart = line.substring(0, hashIndex);
+                }
+                
+                let content = mainPart.substring(prefix.length);
+                
+                const questionIndex = content.indexOf('?');
+                if (questionIndex > -1) {
+                    content = content.substring(0, questionIndex);
+                }
+                
+                let server = '';
+                let port = '';
+                let username = '';
+                let password = '';
+                
+                try {
+                    const decoded = atob(content);
+                    
+                    if (decoded.includes('@')) {
+                        const atIndex = decoded.lastIndexOf('@');
+                        const authPart = decoded.substring(0, atIndex);
+                        const serverPart = decoded.substring(atIndex + 1);
+                        
+                        const colonIndex = authPart.indexOf(':');
+                        if (colonIndex > -1) {
+                            username = authPart.substring(0, colonIndex);
+                            password = authPart.substring(colonIndex + 1);
+                        } else {
+                            username = authPart;
+                        }
+                        
+                        const portIndex = serverPart.lastIndexOf(':');
+                        server = serverPart.substring(0, portIndex);
+                        port = serverPart.substring(portIndex + 1);
+                    } else {
+                        const colonIndex = decoded.lastIndexOf(':');
+                        server = decoded.substring(0, colonIndex);
+                        port = decoded.substring(colonIndex + 1);
+                    }
+                } catch (e) {
+                    console.error('SOCKS base64 decode error, trying direct parse:', e);
+                    
+                    const atIndex = content.lastIndexOf('@');
+                    if (atIndex > -1) {
+                        const authPart = content.substring(0, atIndex);
+                        const serverPart = content.substring(atIndex + 1);
+                        
+                        const colonIndex = authPart.indexOf(':');
+                        if (colonIndex > -1) {
+                            username = decodeURIComponent(authPart.substring(0, colonIndex));
+                            password = decodeURIComponent(authPart.substring(colonIndex + 1));
+                        } else {
+                            username = decodeURIComponent(authPart);
+                        }
+                        
+                        const portIndex = serverPart.lastIndexOf(':');
+                        server = serverPart.substring(0, portIndex);
+                        port = serverPart.substring(portIndex + 1);
+                    } else {
+                        const colonIndex = content.lastIndexOf(':');
+                        server = content.substring(0, colonIndex);
+                        port = content.substring(colonIndex + 1);
+                    }
+                }
+                
+                if (!name) {
+                    name = `${type.toUpperCase()}-${server}`;
+                }
+                
+                name = fixUTF8Encoding(name);
+                
+                let country = extractCountryFromName(name);
+                if (!country || country === 'UN') {
+                    country = guessCountry(server);
+                }
+                
+                return {
+                    type: type,
+                    name: name,
+                    server: server,
+                    port: port,
+                    username: username,
+                    password: password,
+                    raw: line,
+                    country: country
+                };
+            } catch (e) {
+                console.error('SOCKS parse error:', e, line);
+                return null;
+            }
+        }
+
+        // 中文国家名 → 代码（按名称长度降序排列，避免"印尼"被"印"抢先、"澳门"被"澳"抢先、"新西兰"被"新"抢先）
+        const CHINESE_COUNTRIES = [
+            ['澳大利亚', 'AU'], ['哈萨克斯坦', 'KZ'], ['乌兹别克斯坦', 'UZ'], ['斯里兰卡', 'LK'],
+            ['阿尔及利亚', 'DZ'], ['埃塞俄比亚', 'ET'], ['坦桑尼亚', 'TZ'], ['马达加斯加', 'MG'],
+            ['哥斯达黎加', 'CR'], ['吉尔吉斯斯坦', 'KG'], ['塔吉克斯坦', 'TJ'], ['土库曼斯坦', 'TM'],
+            ['阿塞拜疆', 'AZ'], ['阿尔巴尼亚', 'AL'], ['斯洛伐克', 'SK'], ['斯洛文尼亚', 'SI'],
+            ['卢森堡', 'LU'], ['摩尔多瓦', 'MD'], ['毛里塔尼亚', 'MR'], ['多米尼加', 'DO'],
+            ['尼加拉瓜', 'NI'], ['保加利亚', 'BG'], ['委内瑞拉', 'VE'], ['印度尼西亚', 'IN'],
+            ['巴布亚新几内亚', 'PG'], ['美国', 'US'], ['英国', 'GB'], ['日本', 'JP'],
+            ['韩国', 'KR'], ['新加坡', 'SG'], ['香港', 'HK'], ['台湾', 'TW'],
+            ['德国', 'DE'], ['法国', 'FR'], ['加拿大', 'CA'], ['俄罗斯', 'RU'],
+            ['荷兰', 'NL'], ['印度', 'IN'], ['泰国', 'TH'], ['越南', 'VN'],
+            ['中国', 'CN'], ['芬兰', 'FI'], ['奥地利', 'AT'], ['希腊', 'GR'],
+            ['阿联酋', 'AE'], ['哥伦比亚', 'CO'], ['塞尔维亚', 'RS'], ['土耳其', 'TR'],
+            ['波兰', 'PL'], ['瑞典', 'SE'], ['瑞士', 'CH'], ['西班牙', 'ES'],
+            ['意大利', 'IT'], ['葡萄牙', 'PT'], ['爱尔兰', 'IE'], ['冰岛', 'IS'],
+            ['立陶宛', 'LT'], ['拉脱维亚', 'LV'], ['爱沙尼亚', 'EE'], ['摩尔多瓦', 'MD'],
+            ['保加利亚共和国', 'BG'], ['匈牙利', 'HU'], ['捷克', 'CZ'], ['塞浦路斯', 'CY'],
+            ['马耳他共和国', 'MT'], ['克罗地亚', 'HR'], ['黑山', 'ME'], ['马其顿', 'MK'],
+            ['北马其顿', 'MK'], ['波黑', 'BA'], ['科索沃', 'XK'], ['白俄罗斯', 'BY'],
+            ['乌克兰', 'UA'], ['以色列', 'IL'], ['伊朗', 'IR'], ['伊拉克', 'IQ'],
+            ['沙特', 'SA'], ['卡塔尔', 'QA'], ['科威特', 'KW'], ['巴林', 'BH'],
+            ['阿曼', 'OM'], ['约旦', 'JO'], ['黎巴嫩', 'LB'], ['叙利亚', 'SY'],
+            ['也门', 'YE'], ['阿富汗', 'AF'], ['缅甸', 'MM'], ['柬埔寨', 'KH'],
+            ['老挝', 'LA'], ['尼泊尔', 'NP'], ['蒙古', 'MN'], ['格鲁吉亚', 'GE'],
+            ['亚美尼亚', 'AM'], ['智利', 'CL'], ['秘鲁', 'PE'], ['玻利维亚', 'BO'],
+            ['乌拉圭', 'UY'], ['巴拉圭', 'PY'], ['厄瓜多尔', 'EC'], ['古巴', 'CU'],
+            ['危地马拉', 'GT'], ['洪都拉斯', 'HN'], ['萨尔瓦多', 'SV'], ['巴拿马', 'PA'],
+            ['摩洛哥', 'MA'], ['突尼斯', 'TN'], ['利比亚', 'LY'], ['苏丹', 'SD'],
+            ['加纳', 'GH'], ['坦桑尼亚联合共和国', 'TZ'], ['乌干达', 'UG'], ['南非', 'ZA'],
+            ['尼日利亚', 'NG'], ['肯尼亚', 'KE'], ['埃及', 'EG'], ['印尼', 'ID'],
+            ['菲律宾', 'PH'], ['马来西亚', 'MY'], ['巴基斯坦', 'PK'], ['孟加拉', 'BD'],
+            ['欧盟', 'EU'], ['澳门', 'MO'], ['罗马尼亚', 'RO'], ['索马里', 'SO'],
+            ['马里', 'ML'], ['尼日尔', 'NE'], ['乍得', 'TD'], ['多哥', 'TG'],
+            ['贝宁', 'BJ'], ['布基纳法索', 'BF'], ['几内亚', 'GN'], ['塞内加尔', 'SN'],
+            ['科特迪瓦', 'CI'], ['喀麦隆', 'CM'], ['加蓬', 'GA'], ['刚果金', 'CD'],
+            ['刚果布', 'CG'], ['安哥拉', 'AO'], ['赞比亚', 'ZM'], ['津巴布韦', 'ZW'],
+            ['莫桑比克', 'MZ'], ['毛里求斯', 'MU'], ['塞舌尔', 'SC'], ['留尼汪', 'RE'],
+            ['不丹', 'BT'], ['文莱', 'BN'], ['东帝汶', 'TL'], ['斐济', 'FJ'],
+            ['汤加', 'TO'], ['萨摩亚', 'WS'], ['瓦努阿图', 'VU'], ['所罗门', 'SB'],
+            ['关岛', 'GU'], ['波多黎各', 'PR'], ['直布罗陀', 'GI'], ['摩纳哥', 'MC'],
+            ['安道尔共和国', 'AD'], ['列支敦士登', 'LI'], ['阿森松', 'AC'], ['琉球', 'JP'],
+            ['新西兰', 'NZ'], ['马尔代夫', 'MV'], ['巴勒斯坦', 'PS'], ['特立尼达', 'TT'],
+            ['几内亚比绍', 'GW'], ['赤道几内亚', 'GQ'], ['南苏丹', 'SS'], ['开曼群岛', 'KY'],
+            ['百慕大', 'BM'],
+            ['美', 'US'], ['英', 'GB'], ['日', 'JP'], ['韩', 'KR'], ['新', 'SG'], ['港', 'HK'],
+            ['台', 'TW'], ['德', 'DE'], ['法', 'FR'], ['加', 'CA'], ['澳', 'AU'], ['俄', 'RU'],
+            ['荷', 'NL'], ['印', 'IN'], ['泰', 'TH'], ['越', 'VN'], ['中', 'CN'], ['芬', 'FI'],
+            ['奥', 'AT'], ['希', 'GR']
+        ].sort((a, b) => b[0].length - a[0].length);
+
+        // 英文国家名 → 代码（长名在前，避免子串误配，如 romania 中的 oman、somalia 中的 mali）
+        const ENGLISH_COUNTRIES = [
+            ['papua new guinea', 'PG'], ['equatorial guinea', 'GQ'], ['guinea-bissau', 'GW'],
+            ['south sudan', 'SS'], ['south africa', 'ZA'], ['north korea', 'KP'],
+            ['sri lanka', 'LK'], ['el salvador', 'SV'], ['costa rica', 'CR'],
+            ['puerto rico', 'PR'], ['united states', 'US'], ['united kingdom', 'GB'],
+            ['united arab emirates', 'AE'], ['hong kong', 'HK'], ['new zealand', 'NZ'],
+            ['romania', 'RO'], ['bulgaria', 'BG'], ['hungary', 'HU'], ['czech', 'CZ'],
+            ['croatia', 'HR'], ['serbia', 'RS'], ['slovenia', 'SI'], ['slovakia', 'SK'],
+            ['albania', 'AL'], ['moldova', 'MD'], ['estonia', 'EE'], ['latvia', 'LV'],
+            ['lithuania', 'LT'], ['luxembourg', 'LU'], ['montenegro', 'ME'],
+            ['macedonia', 'MK'], ['bosnia', 'BA'], ['kosovo', 'XK'], ['belarus', 'BY'],
+            ['ukraine', 'UA'], ['turkey', 'TR'], ['poland', 'PL'], ['sweden', 'SE'],
+            ['switzerland', 'CH'], ['spain', 'ES'], ['italy', 'IT'], ['portugal', 'PT'],
+            ['ireland', 'IE'], ['iceland', 'IS'], ['nigeria', 'NG'], ['niger', 'NE'],
+            ['ethiopia', 'ET'], ['somalia', 'SO'], ['kenya', 'KE'], ['tanzania', 'TZ'],
+            ['uganda', 'UG'], ['ghana', 'GH'], ['sudan', 'SD'], ['libya', 'LY'],
+            ['tunisia', 'TN'], ['algeria', 'DZ'], ['morocco', 'MA'], ['egypt', 'EG'],
+            ['israel', 'IL'], ['iran', 'IR'], ['iraq', 'IQ'], ['syria', 'SY'],
+            ['lebanon', 'LB'], ['jordan', 'JO'], ['yemen', 'YE'], ['saudi', 'SA'],
+            ['qatar', 'QA'], ['kuwait', 'KW'], ['bahrain', 'BH'], ['oman', 'OM'],
+            ['kazakhstan', 'KZ'], ['uzbekistan', 'UZ'], ['turkmenistan', 'TM'],
+            ['tajikistan', 'TJ'], ['kyrgyzstan', 'KG'], ['afghanistan', 'AF'],
+            ['pakistan', 'PK'], ['bangladesh', 'BD'], ['myanmar', 'MM'], ['burma', 'MM'],
+            ['cambodia', 'KH'], ['laos', 'LA'], ['nepal', 'NP'], ['mongolia', 'MN'],
+            ['indonesia', 'ID'], ['malaysia', 'MY'], ['philippines', 'PH'],
+            ['georgia', 'GE'], ['armenia', 'AM'], ['azerbaijan', 'AZ'],
+            ['venezuela', 'VE'], ['argentina', 'AR'], ['paraguay', 'PY'],
+            ['uruguay', 'UY'], ['bolivia', 'BO'], ['ecuador', 'EC'], ['chile', 'CL'],
+            ['peru', 'PE'], ['brazil', 'BR'], ['mexico', 'MX'], ['cuba', 'CU'],
+            ['dominican', 'DO'], ['guatemala', 'GT'], ['honduras', 'HN'],
+            ['nicaragua', 'NI'], ['panama', 'PA'], ['jamaica', 'JM'], ['fiji', 'FJ'],
+            ['finland', 'FI'], ['austria', 'AT'], ['greece', 'GR'], ['taiwan', 'TW'],
+            ['samoa', 'WS'], ['japan', 'JP'], ['korea', 'KR'], ['singapore', 'SG'],
+            ['germany', 'DE'], ['france', 'FR'], ['canada', 'CA'], ['australia', 'AU'],
+            ['russia', 'RU'], ['netherlands', 'NL'], ['india', 'IN'], ['thailand', 'TH'],
+            ['vietnam', 'VN'], ['china', 'CN'], ['emirates', 'AE'], ['colombia', 'CO'],
+            ['europe', 'EU'], ['mali', 'ML'], ['chad', 'TD'], ['togo', 'TG'],
+            ['benin', 'BJ'], ['senegal', 'SN'], ['cameroon', 'CM'], ['gabon', 'GA'],
+            ['angola', 'AO'], ['zambia', 'ZM'], ['zimbabwe', 'ZW'], ['mozambique', 'MZ'],
+            ['madagascar', 'MG'], ['mauritius', 'MU'], ['seychelles', 'SC'],
+            ['reunion', 'RE'], ['bhutan', 'BT'], ['brunei', 'BN'], ['tonga', 'TO'],
+            ['vanuatu', 'VU'], ['guam', 'GU'], ['monaco', 'MC'], ['andorra', 'AD'],
+            ['malta', 'MT'], ['cyprus', 'CY']
+        ].sort((a, b) => b[0].length - a[0].length);
+
+        // 识别结果按节点名缓存（批量解析时避免重复计算）
+        const countryResultCache = new Map();
+
+        function extractCountryFromName(name) {
+            if (!name) return null;
+            const cached = countryResultCache.get(name);
+            if (cached !== undefined) return cached;
+            const result = computeCountryFromName(name);
+            countryResultCache.set(name, result);
+            return result;
+        }
+
+        function computeCountryFromName(name) {
+            if (!name) return null;
+
+            // 提取 emoji 国旗
+            const flagPattern = /[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g;
+            const flags = name.match(flagPattern);
+
+            if (flags && flags.length > 0) {
+                const flag = flags[0];
+                const countryCode = emojiToCountryCode(flag);
+
+                if (countryCode) {
+                    return countryCode;
+                }
+            }
+
+            const upperName = name.toUpperCase();
+
+            // 精确匹配两字母国家代码（必须是独立的单词，覆盖全部 ISO 代码）
+            const codeMatch = COUNTRY_CODE_RE.exec(upperName);
+            if (codeMatch) {
+                return codeMatch[2];
+            }
+
+            // 匹配中文国家名称（长名优先）
+            for (const [cnName, code] of CHINESE_COUNTRIES) {
+                if (name.includes(cnName)) {
+                    return code;
+                }
+            }
+
+            // 匹配完整英文国家名称（长名优先）
+            const lowerName = name.toLowerCase();
+            for (const [enName, code] of ENGLISH_COUNTRIES) {
+                if (code && lowerName.includes(enName)) {
+                    return code;
+                }
+            }
+
+            return null;
+        }
+
+        function emojiToCountryCode(emoji) {
+            try {
+                const codePoint1 = emoji.codePointAt(0);
+                const codePoint2 = emoji.codePointAt(2);
+                
+                const letter1 = String.fromCharCode(codePoint1 - 0x1F1E6 + 65);
+                const letter2 = String.fromCharCode(codePoint2 - 0x1F1E6 + 65);
+                
+                const countryCode = letter1 + letter2;
+                
+                return countryCode;
+            } catch (e) {
+                console.error('Emoji to country code error:', e);
+                return null;
+            }
+        }
+
+        function guessCountry(address) {
+            const lowerAddr = address.toLowerCase();
+            const patterns = {
+                'US': ['us', 'usa', 'united', 'america', 'losangeles', 'newyork', 'chicago', 'miami', 'dallas', 'seattle'],
+                'CN': ['cn', 'china', 'beijing', 'shanghai', 'guangzhou', 'shenzhen', 'hangzhou'],
+                'JP': ['jp', 'japan', 'tokyo', 'osaka', 'kyoto'],
+                'GB': ['uk', 'gb', 'britain', 'london', 'england'],
+                'DE': ['de', 'germany', 'berlin', 'frankfurt', 'munich'],
+                'FR': ['fr', 'france', 'paris'],
+                'KR': ['kr', 'korea', 'seoul'],
+                'SG': ['sg', 'singapore'],
+                'HK': ['hk', 'hongkong', 'hong-kong'],
+                'TW': ['tw', 'taiwan', 'taipei'],
+                'RU': ['ru', 'russia', 'moscow'],
+                'CA': ['ca', 'canada', 'toronto', 'vancouver'],
+                'AU': ['au', 'australia', 'sydney', 'melbourne'],
+                'NL': ['nl', 'netherlands', 'amsterdam'],
+                'TH': ['th', 'thailand', 'bangkok'],
+                'RO': ['ro', 'romania', 'bucharest'],
+                'IN': ['in', 'india', 'mumbai', 'delhi'],
+                'BR': ['br', 'brazil', 'sao'],
+                'IT': ['it', 'italy', 'rome', 'milan'],
+                'ES': ['es', 'spain', 'madrid', 'barcelona'],
+                'SE': ['se', 'sweden', 'stockholm'],
+                'CH': ['ch', 'switzerland', 'zurich'],
+                'TR': ['tr', 'turkey', 'istanbul'],
+                'PL': ['pl', 'poland', 'warsaw'],
+                'AR': ['ar', 'argentina', 'buenos'],
+                'MX': ['mx', 'mexico'],
+                'FI': ['fi', 'finland', 'helsinki'],
+                'AT': ['at', 'austria', 'vienna'],
+                'GR': ['gr', 'greece', 'athens'],
+                'WS': ['ws', 'samoa'],
+                'AE': ['ae', 'uae', 'dubai', 'emirates'],
+                'CO': ['co', 'colombia', 'bogota']
+            };
+
+            for (const [code, keywords] of Object.entries(patterns)) {
+                if (keywords.some(kw => lowerAddr.includes(kw))) {
+                    return code;
+                }
+            }
+            return 'UN';
+        }
+
+        function translateFieldName(key) {
+            return fieldTranslations[key] || key;
+        }
+
+        /* ==================== 节点连通性检测 ==================== */
+
+        function isTrueParam(v) {
+            return v === '1' || v === 'true' || v === true;
+        }
+
+        // 延迟徽章点击：已导入内核的节点单独重测（未导入的由“真连接测试”统一处理）
+        function retestNode(nodeIndex) {
+            const node = allNodes[nodeIndex];
+            if (!node || !node.coreName || node.latency === 'testing') return;
+            testNodeViaCore(node);
+        }
+
+        function getLatencyClass(latency) {
+            if (latency === null) return 'latency-unknown';
+            if (latency === 'testing') return 'latency-testing';
+            if (latency === 'timeout' || latency === 'error') return 'latency-timeout';
+            if (latency < 100) return 'latency-excellent';
+            if (latency < 200) return 'latency-good';
+            if (latency < 500) return 'latency-fair';
+            return 'latency-poor';
+        }
+
+        function getLatencyText(latency) {
+            if (latency === null) return '未测试';
+            if (latency === 'testing') return '测试中...';
+            if (latency === 'timeout') return '超时';
+            if (latency === 'error') return '错误';
+            return `${latency}ms`;
+        }
+
+        /* ==================== 真连接检测（本地 Mihomo/Clash 内核） ==================== */
+
+        function getCoreSettings() {
+            // 协议归一化：漏输 http:// 时自动补全，避免被当作相对路径发出怪异请求
+            let api = (document.getElementById('coreApi').value.trim() || 'http://127.0.0.1:9090').replace(/\/+$/, '');
+            if (!/^https?:\/\//i.test(api)) api = 'http://' + api;
+            return {
+                api: api,
+                secret: document.getElementById('coreSecret').value.trim(),
+                timeout: parseInt(document.getElementById('coreTimeout').value, 10) || 5000,
+                testUrl: document.getElementById('coreTestUrl').value.trim() || 'http://www.gstatic.com/generate_204',
+                autoProxy: document.getElementById('coreAutoProxy').checked
+            };
+        }
+
+        function coreFetch(path, opts = {}, timeoutMs) {
+            const s = getCoreSettings();
+            const headers = Object.assign({}, opts.headers || {});
+            if (s.secret) headers['Authorization'] = 'Bearer ' + s.secret;
+            // 内核无响应时按超时中断，避免面板无限挂起
+            const signal = opts.signal || AbortSignal.timeout(timeoutMs || 15000);
+            return fetch(s.api + path, Object.assign({}, opts, { headers, signal }));
+        }
+
+        function setCoreApi(value) {
+            document.getElementById('coreApi').value = value;
+            localStorage.setItem('core_coreApi', value);
+        }
+
+        // no-cors 探测：任意 HTTP 服务都会响应（opaque），用于区分“端口无服务”与“有服务但不是控制器”
+        async function probePortHasService(apiBase, timeoutMs) {
+            try {
+                await fetch(apiBase.replace(/\/+$/, '') + '/version', { mode: 'no-cors', cache: 'no-store', signal: AbortSignal.timeout(timeoutMs) });
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // 探测某地址是否为可用的内核 API
+        async function probeCoreApi(apiBase, timeoutMs) {
+            const base = apiBase.replace(/\/+$/, '');
+            try {
+                const res = await fetch(base + '/version', { cache: 'no-store', signal: AbortSignal.timeout(timeoutMs) });
+                if (res.ok) {
+                    const j = await res.json().catch(() => null);
+                    if (j && (j.version || 'meta' in j)) return { ok: true };
+                }
+                return { served: true, status: res.status };
+            } catch (e) {
+                return (await probePortHasService(base, timeoutMs)) ? { served: true, status: 0 } : { refused: true };
+            }
+        }
+
+        // 连接失败时的自动诊断：常见端口探测并自动填入、识别代理端口误填、提示 Secret
+        async function diagnoseCoreConnection() {
+            const s = getCoreSettings();
+            const direct = await probeCoreApi(s.api, 1500);
+            if (direct.ok) return { found: s.api, message: '' };
+            if (direct.status === 401) {
+                return { found: s.api, message: `内核 API 就在 ${s.api}，但鉴权失败：请在设置中填写与内核一致的 Secret。` };
+            }
+
+            for (const c of ['http://127.0.0.1:9090', 'http://127.0.0.1:9097']) {
+                if (c === s.api) continue;
+                const r = await probeCoreApi(c, 800);
+                if (r.ok) {
+                    setCoreApi(c);
+                    return { found: c, message: `已检测到内核 API 实际运行在 ${c}，并已自动填入地址。请重新点击“🔥 真连接测试”。` };
+                }
+                if (r.status === 401) {
+                    setCoreApi(c);
+                    return { found: c, message: `在 ${c} 发现内核 API（需要鉴权）。已自动填入地址，请在设置中填写 Secret 后重试。` };
+                }
+            }
+
+            if (direct.served) {
+                const msg = [`地址 ${s.api} 有服务在响应，但它不是外部控制 API。`];
+                if (/:(7890|7891|2080|1080|8080|10808|10809)\/?$/.test(s.api)) {
+                    msg.push('这个端口通常是代理入口（例如 7890 是 Mixed 代理端口，即日志里的 “Mixed(http+socks) proxy listening at: 127.0.0.1:7890”），代理端口不能填在 API 地址里。');
+                }
+                msg.push('面板要连的是“外部控制 API”端口：mihomo/clash 默认 9090，Clash Verge Rev 默认 9097。');
+                return { found: null, message: msg.join('\n') };
+            }
+
+            return {
+                found: null,
+                message: `无法连接 ${s.api}（该端口没有服务在监听），常见端口 9090 / 9097 也未发现内核 API。\n\n请先让内核开启外部控制 API：\n· mihomo/clash：配置文件中设置 external-controller: 127.0.0.1:9090 后重启内核\n· Clash Verge Rev：设置 → 外部控制（默认已开启，端口 9097）\n开启成功后内核日志会出现 “RESTful API listening at: ...”`
+            };
+        }
+
+        // 简易工作池：limit 个并发，快节点不等慢节点
+        async function runPool(items, limit, fn) {
+            let cursor = 0;
+            const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+                while (cursor < items.length) {
+                    const item = items[cursor++];
+                    await fn(item);
+                }
+            });
+            await Promise.all(workers);
+        }
+
+        function splitAlpn(v) {
+            if (!v) return undefined;
+            const arr = String(v).split(',').map(x => x.trim()).filter(Boolean);
+            return arr.length ? arr : undefined;
+        }
+
+        /**
+         * 把面板解析的节点转换为 Mihomo/Clash 代理配置，无法转换时返回 null
+         */
+        function nodeToClashProxy(node, name) {
+            const server = String(node.server || '').trim();
+            const port = parseInt(node.port, 10);
+            if (!server || !(port >= 1 && port <= 65535)) return null;
+            const skipCert = isTrueParam(node.insecure) || isTrueParam(node.allowInsecure);
+            const net = node.network && node.network !== 'tcp' ? node.network : undefined;
+            const isDomain = h => h && !/^\d{1,3}(\.\d{1,3}){3}$/.test(h) && !String(h).includes(':');
+
+            const wsOpts = () => {
+                if (node.network !== 'ws' && node.network !== 'httpupgrade') return undefined;
+                const opts = { path: node.path || '/' };
+                if (node.host) opts.headers = { Host: node.host };
+                return opts;
+            };
+            const grpcOpts = () => (node.network === 'grpc' && node.serviceName)
+                ? { 'grpc-service-name': node.serviceName } : undefined;
+            // mihomo 的 xhttp / h2 / http 传输层选项
+            const xhttpOpts = () => {
+                if (node.network !== 'xhttp') return undefined;
+                const opts = { path: node.path || '/' };
+                if (node.host) opts.host = node.host;
+                if (node.mode) opts.mode = node.mode;
+                return opts;
+            };
+            const h2Opts = () => {
+                if (node.network !== 'h2') return undefined;
+                const opts = { path: [node.path || '/'] };
+                if (node.host) opts.host = [node.host];
+                return opts;
+            };
+            const httpOpts = () => {
+                if (node.network !== 'http') return undefined;
+                const opts = { path: [node.path || '/'] };
+                if (node.host) opts.headers = { Host: [node.host] };
+                return opts;
+            };
+            const alpn = splitAlpn(node.alpn);
+            // vmess 链接的 tls 字段可能是 'tls' / true / '1' 等多种写法
+            const tlsOn = () => {
+                const v = node.security || node.tls;
+                if (v === true || v === 1) return true;
+                return ['tls', 'reality', 'true', '1'].includes(String(v || '').toLowerCase());
+            };
+            // 按网络类型统一挂载传输层选项（httpupgrade 与 ws 共用 ws-opts）
+            const applyTransport = target => {
+                const to = wsOpts(); if (to) target['ws-opts'] = to;
+                const go = grpcOpts(); if (go) target['grpc-opts'] = go;
+                const xo = xhttpOpts(); if (xo) target['xhttp-opts'] = xo;
+                const h2o = h2Opts(); if (h2o) target['h2-opts'] = h2o;
+                const hto = httpOpts(); if (hto) target['http-opts'] = hto;
+            };
+
+            let p = null;
+            switch (node.type) {
+                case 'ss':
+                    if (!node.method) return null;
+                    p = { name, type: 'ss', server, port, cipher: node.method, password: node.password || '', udp: true };
+                    if (node.plugin) {
+                        p.plugin = node.plugin;
+                        const po = {};
+                        if (node.pluginOpts) {
+                            // SIP002 obfs 插件参数名为 obfs / obfs-host，对应 mihomo 的 mode / host
+                            const mode = node.pluginOpts.mode || node.pluginOpts.obfs;
+                            const host = node.pluginOpts.host || node.pluginOpts['obfs-host'];
+                            if (mode) po.mode = mode;
+                            if (host) po.host = host;
+                            if (node.pluginOpts.path) po.path = node.pluginOpts.path;
+                            if (isTrueParam(node.pluginOpts.tls)) po.tls = true;
+                        }
+                        p['plugin-opts'] = po;
+                    }
+                    break;
+                case 'ssr':
+                    if (!node.method) return null;
+                    p = { name, type: 'ssr', server, port, cipher: node.method, password: node.password || '', protocol: node.protocol || 'origin', obfs: node.obfs || 'plain', udp: true };
+                    if (node.obfsParam) p['obfs-param'] = node.obfsParam;
+                    if (node.protocolParam) p['protocol-param'] = node.protocolParam;
+                    break;
+                case 'vmess': {
+                    if (!node.uuid) return null;
+                    p = { name, type: 'vmess', server, port, uuid: node.uuid, alterId: parseInt(node.alterId, 10) || 0, cipher: node.cipher || node.method || 'auto', udp: true };
+                    if (tlsOn()) {
+                        p.tls = true;
+                        p.servername = node.sni || node.host || server;
+                        p['skip-cert-verify'] = skipCert;
+                    }
+                    if (net) p.network = net;
+                    applyTransport(p);
+                    break;
+                }
+                case 'vless': {
+                    if (!node.uuid) return null;
+                    const sec = String(node.security || '').toLowerCase();
+                    p = { name, type: 'vless', server, port, uuid: node.uuid, udp: true };
+                    if (sec === 'tls' || sec === 'reality' || (sec === '' && (node.sni || String(node.port) === '443'))) p.tls = true;
+                    if (node.flow) p.flow = node.flow;
+                    if (net) p.network = net;
+                    if (node.sni) p.servername = node.sni;
+                    if (sec === 'reality' && node.pbk) p['reality-opts'] = node.sid ? { 'public-key': node.pbk, 'short-id': node.sid } : { 'public-key': node.pbk };
+                    if (node.fp) p['client-fingerprint'] = node.fp;
+                    if (node.pcs) p.fingerprint = node.pcs;
+                    applyTransport(p);
+                    if (alpn) p.alpn = alpn;
+                    if (sec && sec !== 'none') p['skip-cert-verify'] = skipCert;
+                    break;
+                }
+                case 'trojan': {
+                    if (!node.password) return null;
+                    p = { name, type: 'trojan', server, port, password: node.password, udp: true, 'skip-cert-verify': skipCert };
+                    if (node.sni && isDomain(node.sni)) p.sni = node.sni;
+                    if (net) p.network = net;
+                    if (node.pcs) p.fingerprint = node.pcs;
+                    applyTransport(p);
+                    if (alpn) p.alpn = alpn;
+                    break;
+                }
+                case 'hysteria':
+                    p = { name, type: 'hysteria', server, port, protocol: node.protocol || 'udp', 'auth-str': node.auth || '', up: node.upmbps || '50', down: node.downmbps || '100' };
+                    if (node.peer && isDomain(node.peer)) p.sni = node.peer;
+                    if (node.obfs) p.obfs = node.obfs;
+                    if (isTrueParam(node.insecure)) p['skip-cert-verify'] = true;
+                    if (alpn) p.alpn = alpn;
+                    break;
+                case 'hysteria2':
+                    p = { name, type: 'hysteria2', server, port, password: node.auth || '' };
+                    if (node.sni && isDomain(node.sni)) p.sni = node.sni;
+                    if (node.ports) p.ports = node.ports;
+                    if (node.obfs) {
+                        p.obfs = node.obfs;
+                        if (node.obfsPassword) p['obfs-password'] = node.obfsPassword;
+                    }
+                    if (isTrueParam(node.insecure)) p['skip-cert-verify'] = true;
+                    if (alpn) p.alpn = alpn;
+                    break;
+                case 'tuic': {
+                    p = { name, type: 'tuic', server, port };
+                    if (node.token) {
+                        // TUIC v4 共享令牌
+                        p.token = node.token;
+                    } else {
+                        if (!node.uuid) return null;
+                        p.uuid = node.uuid;
+                        p.password = node.password || '';
+                    }
+                    if (node.sni && isDomain(node.sni)) p.sni = node.sni;
+                    if (node.congestion_control) p['congestion-controller'] = node.congestion_control;
+                    if (node.udp_relay_mode) p['udp-relay-mode'] = node.udp_relay_mode;
+                    if (isTrueParam(node.insecure)) p['skip-cert-verify'] = true;
+                    if (alpn) p.alpn = alpn;
+                    break;
+                }
+                case 'anytls':
+                    p = { name, type: 'anytls', server, port, udp: true, password: node.password || node.uuid || '' };
+                    if (node.username) p.username = node.username;
+                    if (node.sni && isDomain(node.sni)) p.sni = node.sni;
+                    if (isTrueParam(node.insecure)) p['skip-cert-verify'] = true;
+                    if (alpn) p.alpn = alpn;
+                    break;
+                case 'socks':
+                case 'socks5':
+                    p = { name, type: 'socks5', server, port, udp: true };
+                    if (node.username) {
+                        p.username = node.username;
+                        p.password = node.password || '';
+                    }
+                    break;
+                case 'https':
+                case 'http':
+                    p = { name, type: 'http', server, port };
+                    if (node.username) {
+                        p.username = node.username;
+                        p.password = node.password || '';
+                    }
+                    if (node.type === 'https' && node.secure !== false) {
+                        p.tls = true;
+                        p['skip-cert-verify'] = skipCert;
+                    }
+                    break;
+                default:
+                    return null;
+            }
+            return p;
+        }
+
+        // 序列化为 YAML flow 风格：字符串 JSON 转义与 YAML 双引号兼容，空值直接省略
+        function yamlValue(v) {
+            if (v === null || v === undefined || v === '') return null;
+            if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+            if (Array.isArray(v)) return `[${v.map(x => yamlValue(x)).join(', ')}]`;
+            if (typeof v === 'object') {
+                const parts = Object.entries(v)
+                    .filter(([, x]) => x !== null && x !== undefined && x !== '')
+                    .map(([k, x]) => `${k}: ${yamlValue(x)}`);
+                return `{${parts.join(', ')}}`;
+            }
+            return JSON.stringify(String(v));
+        }
+
+        /**
+         * 生成包含全部节点的内核配置（头部行 + 节点条目分离，便于导入失败时按内核报错剔除坏节点重试）。
+         * 保留当前内核的入站端口与外部控制地址，避免检测期间系统代理中断、API 失联
+         */
+        async function buildCoreYaml(nodes) {
+            const used = new Set();
+            const names = nodes.map(node => {
+                let base = String(node.name || '').replace(/[\r\n\t]/g, ' ').trim() || `${node.type}-${node.server}`;
+                if (base.length > 80) base = base.substring(0, 80);
+                let name = base;
+                let k = 2;
+                while (used.has(name)) name = `${base} ${k++}`;
+                used.add(name);
+                return name;
+            });
+
+            const entries = [];
+            nodes.forEach((node, i) => {
+                const proxy = nodeToClashProxy(node, names[i]);
+                if (proxy) entries.push({ proxy, nodeIdx: i });
+            });
+
+            let cfg = {};
+            try {
+                cfg = await (await coreFetch('/configs')).json();
+            } catch (e) {}
+
+            const s = getCoreSettings();
+            const lines = [];
+            if (cfg['mixed-port']) lines.push(`mixed-port: ${cfg['mixed-port']}`);
+            if (cfg.port) lines.push(`port: ${cfg.port}`);
+            if (cfg['socks-port']) lines.push(`socks-port: ${cfg['socks-port']}`);
+            if (!cfg['mixed-port'] && !cfg.port && !cfg['socks-port']) lines.push('mixed-port: 7890');
+            // 保留运行配置的局域网代理开关（如 allow-lan: true），导入后不改变入站的可访问范围
+            lines.push(`allow-lan: ${cfg['allow-lan'] === true ? 'true' : 'false'}`);
+            if (cfg['bind-address'] && cfg['bind-address'] !== '*') lines.push(`bind-address: ${JSON.stringify(cfg['bind-address'])}`);
+            lines.push('mode: rule', 'log-level: warning', 'ipv6: true');
+            // external-controller 必须显式回填：部分内核版本的 GET /configs 不返回该字段，
+            // 若缺失会导致导入后控制器监听被移除、API 失联。面板当前连接的地址即权威值。
+            let controller = cfg['external-controller'] || '';
+            try {
+                const u = new URL(s.api);
+                if (u.port) controller = `${u.hostname}:${u.port}`;
+            } catch (e) {}
+            if (controller) lines.push(`external-controller: ${controller}`);
+            if (s.secret) lines.push(`secret: ${JSON.stringify(s.secret)}`);
+            // 面板若正从内核 external-ui 目录（/ui/）同源打开，导入配置需保留该设置，
+            // 否则热载后 /ui/ 路由消失，刷新页面会 404
+            try {
+                const here = new URL(location.href);
+                const apiU = new URL(s.api);
+                if (here.origin === apiU.origin && (here.pathname === '/ui' || here.pathname.startsWith('/ui/'))) {
+                    lines.push('external-ui: ui');
+                }
+            } catch (e) {}
+            lines.push('proxies:');
+
+            return { head: lines, entries, names };
+        }
+
+        /**
+         * 把节点热载进内核（PUT /configs payload），并把导入后的真实代理名回填到节点。
+         * 内核对整个配置做校验，单个坏节点会整体拒绝（400 且报错带 "proxy N:" 序号），
+         * 因此按报错把坏节点剔除后重试，保证其余节点不受影响
+         */
+        async function coreLoadProxies(nodes) {
+            const built = await buildCoreYaml(nodes);
+            const entries = built.entries.slice();
+            let attempt = 0;
+
+            const s = getCoreSettings();
+            while (true) {
+                attempt++;
+                // 开启“自动启用最快节点”时生成 url-test 代理组，由内核持续测速并自动切换到延迟最低的可用节点
+                let tail;
+                if (s.autoProxy && entries.length > 0) {
+                    const members = entries.map(e => JSON.stringify(built.names[e.nodeIdx])).join(', ');
+                    tail = [
+                        'proxy-groups:',
+                        `  - {name: "AUTO-BEST", type: url-test, proxies: [${members}], url: ${JSON.stringify(s.testUrl)}, interval: 300, tolerance: 50}`,
+                        'rules:',
+                        '  - MATCH,AUTO-BEST'
+                    ];
+                } else {
+                    tail = ['rules:', '  - MATCH,DIRECT'];
+                }
+                const yaml = built.head
+                    .concat(entries.map(e => `  - ${yamlValue(e.proxy)}`), tail)
+                    .join('\n');
+                const res = await coreFetch('/configs?force=true', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ payload: yaml })
+                });
+                if (res.ok) break;
+
+                let msg = '';
+                try { msg = (await res.json()).message || ''; } catch (e) {}
+                // 内核报错序号为 0-based（Go range 下标），如 "proxy 1: invalid ..."
+                const m = String(msg).match(/proxy (\d+)/i);
+                if (res.status === 400 && m && entries[Number(m[1])]) {
+                    const dropped = entries.splice(Number(m[1]), 1)[0];
+                    console.warn(`节点 "${built.names[dropped.nodeIdx]}" 未通过内核校验，已跳过：${msg}`);
+                    if (attempt > 60) throw new Error('内核持续拒绝配置：' + msg);
+                    continue;
+                }
+                throw new Error(`内核返回 ${res.status} ${msg}`.trim());
+            }
+
+            const proxies = (await (await coreFetch('/proxies')).json()).proxies || {};
+            let loaded = 0;
+            nodes.forEach((node, i) => {
+                const name = built.names[i];
+                if (name && proxies[name]) {
+                    node.coreName = name;
+                    loaded++;
+                } else {
+                    node.coreName = null;
+                }
+            });
+            // 导入成功：把带完整连接信息的节点快照存入 localStorage，
+            // 供「读取内存节点」在页面重开后按内核当前节点列表校验恢复
+            saveCoreSnapshot();
+            return { loaded, skipped: nodes.length - entries.length };
+        }
+
+        /**
+         * 通过内核对单个节点发起真实请求（GET /proxies/{name}/delay），
+         * 返回的延迟即节点真实可用性
+         */
+        async function testNodeViaCore(node) {
+            if (node.latency === 'testing') return;
+            node.latency = 'testing';
+            node.testMode = 'core';
+            renderNodes();
+
+            const s = getCoreSettings();
+            const name = node.coreName || node.name;
+            const delayUrl = `/proxies/${encodeURIComponent(name)}/delay?timeout=${s.timeout}&url=${encodeURIComponent(s.testUrl)}`;
+            // 内核热载配置的瞬间监听会短暂重启，失败后重试一次，避免误判为超时
+            for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                    const res = await coreFetch(delayUrl, {}, s.timeout + 3000);
+                    if (res.ok) {
+                        const j = await res.json();
+                        node.latency = (j && j.delay > 0) ? j.delay : 'timeout';
+                        break;
+                    }
+                    if (attempt === 0 && res.status >= 500) {
+                        await new Promise(r => setTimeout(r, 600));
+                        continue;
+                    }
+                    node.latency = 'timeout';
+                    break;
+                } catch (e) {
+                    if (attempt === 0) {
+                        await new Promise(r => setTimeout(r, 600));
+                        continue;
+                    }
+                    node.latency = 'timeout';
+                }
+            }
+            renderNodes();
+        }
+
+        /**
+         * 真连接测试主流程：
+         * 1. 探测内核 API 是否在线
+         * 2. 与内核现有同名节点直接匹配测试（零干扰）
+         * 3. 其余节点经确认后热载进内核再测（会临时覆盖内核运行配置）
+         */
+        async function testAllViaCore() {
+            if (testingLatency) return;
+            if (allNodes.length === 0) {
+                alert('请先解析节点');
+                return;
+            }
+
+            testingLatency = true;
+            const btn = document.getElementById('testCoreBtn');
+            btn.disabled = true;
+            const total = getFilteredNodes().length;
+            const setProgress = done => { btn.textContent = `🔥 真连接测试 ${Math.round(done / total * 100)}%`; };
+            let done = 0;
+
+            try {
+                let vres;
+                try {
+                    vres = await coreFetch('/version');
+                } catch (e) {
+                    vres = { ok: false, status: 0 };
+                }
+                if (!vres.ok) {
+                    const d = await diagnoseCoreConnection();
+                    alert(vres.status === 401
+                        ? `内核 API 鉴权失败（HTTP 401）：面板填写的 Secret 与内核不一致。\n\n请在“真连接检测设置”中核对 Secret。${d.message ? '\n\n' + d.message : ''}`
+                        : '无法连接本地 Mihomo/Clash 内核 API。\n\n' + (d.message || '请检查 API 地址与 Secret。'));
+                    return;
+                }
+
+                const nodes = getFilteredNodes();
+                const existing = (await (await coreFetch('/proxies')).json()).proxies || {};
+                const matched = nodes.filter(n => existing[n.name]);
+                const unmatched = nodes.filter(n => !existing[n.name]);
+
+                await runPool(matched, 8, async node => {
+                    node.coreName = node.name;
+                    await testNodeViaCore(node);
+                    setProgress(++done);
+                });
+
+                if (unmatched.length > 0) {
+                    const autoOn = getCoreSettings().autoProxy;
+                    const trafficNote = autoOn
+                        ? '导入后代理流量将自动经由延迟最低的可用节点转发（混合端口继续提供代理服务）。'
+                        : '导入后系统代理将暂时直连。';
+                    const fileNote = location.protocol === 'file:'
+                        ? '\n\n⚠️ 当前面板以 file:// 方式打开，浏览器的私有网络限制可能拦截导入请求（GET 正常但 PUT 会被拦）；若导入失败，请按失败提示中的方法处理。'
+                        : '';
+                    const ok = confirm(
+                        `有 ${unmatched.length} 个节点不在内核当前配置中，需要导入后才能检测。\n\n` +
+                        '导入会临时覆盖本地内核正在运行的配置（节点与分流规则被替换），' + trafficNote +
+                        '完成后请在客户端重新启用订阅即可恢复。' + fileNote + '\n\n是否继续导入并检测？'
+                    );
+                    if (ok) {
+                        btn.textContent = '🔥 导入内核中...';
+                        const result = await coreLoadProxies(allNodes);
+                        if (result.skipped > 0) console.warn(`有 ${result.skipped} 个节点缺少必要参数，未能导入内核`);
+                        const testable = unmatched.filter(n => n.coreName);
+                        await runPool(testable, 8, async node => {
+                            await testNodeViaCore(node);
+                            setProgress(++done);
+                        });
+                        unmatched.filter(n => !n.coreName).forEach(n => { n.latency = 'error'; });
+                        renderNodes();
+                    } else {
+                        unmatched.forEach(n => { if (n.latency === null) n.latency = 'error'; });
+                        renderNodes();
+                    }
+                }
+
+                // 同名直测与导入两种路径结束后，凡是确认在内核内存中的节点都保存快照，
+                // 保证页面重开后「读取内存节点」能还原完整连接信息
+                saveCoreSnapshot();
+            } catch (e) {
+                console.error('Core test error:', e);
+                let msg = '真连接检测失败：' + (e.message || e);
+                if (/failed to fetch/i.test(String(e.message || ''))) {
+                    msg += '\n\n“导入”请求被浏览器拦截：GET 可以连上内核，但 PUT 会触发浏览器的私有网络限制（file:// 打开的页面常见）。\n解决方法（任选其一）：\n' +
+                        '1. 用本地服务打开面板：在面板所在目录运行  python -m http.server 8777 ，然后访问 http://127.0.0.1:8777/代理节点管理面板.html\n' +
+                        '2. 在内核配置文件中、external-controller 旁边增加以下配置并重启内核：\n' +
+                        '   external-controller-cors:\n     allow-origins:\n       - "*"\n     allow-private-network: true\n' +
+                        '3. 把面板 HTML 复制到内核的 external-ui 目录（如 external-ui: ui），从 http://127.0.0.1:9090/ui/ 打开——与 API 同源，无任何限制';
+                }
+                alert(msg);
+            } finally {
+                testingLatency = false;
+                btn.disabled = false;
+                btn.textContent = '🔥 真连接测试';
+            }
+        }
+
+        /* ==================== 读取内核内存节点 ==================== */
+
+        // 内核返回的分组/内置出口类型，读取时剔除，只保留实节点
+        const CORE_GROUP_TYPES = new Set(['Selector', 'URLTest', 'Fallback', 'LoadBalance', 'Relay', 'Direct', 'Reject', 'RejectDrop', 'Compatible', 'Pass', 'PassRule']);
+        const CORE_BUILTIN_NAMES = new Set(['DIRECT', 'REJECT', 'REJECT-DROP', 'COMPATIBLE', 'PASS', 'PASS-RULE', 'GLOBAL']);
+        // 内核类型名（首字母大写）→ 面板协议名
+        const CORE_TYPE_MAP = {
+            'Shadowsocks': 'ss', 'ShadowsocksR': 'ssr', 'Socks5': 'socks5', 'Socks': 'socks',
+            'Http': 'http', 'Https': 'https', 'Vmess': 'vmess', 'Vless': 'vless',
+            'Trojan': 'trojan', 'Hysteria': 'hysteria', 'Hysteria2': 'hysteria2',
+            'Tuic': 'tuic', 'AnyTLS': 'anytls', 'Ssh': 'ssh', 'WireGuard': 'wireguard', 'Mieru': 'mieru'
+        };
+
+        function loadCoreSnapshot() {
+            try {
+                const arr = JSON.parse(localStorage.getItem('core_importedNodes') || '[]');
+                return Array.isArray(arr) ? arr : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // 清除浏览器中保存的节点快照（不影响内核内存中的节点）
+        function clearCoreSnapshot() {
+            const snap = loadCoreSnapshot();
+            if (snap.length === 0) {
+                alert('当前没有保存的内存节点快照');
+                return;
+            }
+            if (!confirm(`确定删除保存的 ${snap.length} 个节点快照吗？\n\n删除后「读取内存节点」将无法还原这些节点的完整信息（内核内存中的节点不受影响）。`)) return;
+            try {
+                localStorage.removeItem('core_importedNodes');
+                alert('已删除内存节点快照（共 ' + snap.length + ' 个节点）');
+            } catch (e) {
+                alert('删除失败：' + (e.message || e));
+            }
+        }
+
+        // 内核节点延迟历史：取最后一次测速结果（0 表示上次测速失败）
+        function coreLatestDelay(history) {
+            if (!Array.isArray(history) || !history.length) return null;
+            const last = history[history.length - 1] || {};
+            return (typeof last.delay === 'number' && last.delay > 0) ? last.delay : 'timeout';
+        }
+
+        // 快照之外的内核节点：内核 API 不下发服务器地址等敏感信息，只能还原名称与类型
+        function makeCoreOnlyNode(p) {
+            let country = extractCountryFromName(p.name);
+            if (!country || country === 'UN') country = 'UN';
+            return {
+                type: CORE_TYPE_MAP[p.type] || String(p.type || '').toLowerCase(),
+                name: p.name,
+                server: '—',
+                port: '—',
+                raw: '',
+                country: country,
+                latency: coreLatestDelay(p.history),
+                coreName: p.name
+            };
+        }
+
+        // 把带完整连接信息、且确认存在于内核内存中的节点存入 localStorage，
+        // 供「读取内存节点」在页面重开后按内核当前节点列表校验恢复
+        function saveCoreSnapshot() {
+            try {
+                localStorage.setItem('core_importedNodes', JSON.stringify(allNodes.filter(n => n.coreName && n.raw)));
+            } catch (e) {
+                console.warn('导入快照保存失败：', e);
+            }
+        }
+
+        function pickConfigFile() {
+            return new Promise(resolve => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.yaml,.yml,.txt';
+                input.style.display = 'none';
+                let settled = false;
+                const done = v => { if (!settled) { settled = true; input.remove(); resolve(v); } };
+                input.addEventListener('change', async () => {
+                    const f = input.files && input.files[0];
+                    if (!f) return done(null);
+                    try { done(await f.text()); } catch (e) { done(null); }
+                });
+                input.addEventListener('cancel', () => done(null));
+                document.body.appendChild(input);
+                input.click();
+                // 极旧浏览器不支持 cancel 事件时的兜底，避免按钮永久卡在“读取中”
+                setTimeout(() => done(null), 600000);
             });
         }
 
-        function createNodeCard(node, idx) {
-            const latencyClass = node.latency ? `latency-${node.latency}` : 'latency-unknown';
-            const latencyText = node.latency === 'testing' ? '测速中...' : (node.latency || '未测');
+        /* ---------- Clash/Mihomo 配置（YAML）解析 ---------- */
+
+        function stripYamlComment(line) {
+            let inQuote = null;
+            for (let i = 0; i < line.length; i++) {
+                const c = line[i];
+                if (inQuote) {
+                    if (c === inQuote) inQuote = null;
+                } else if (c === '"' || c === "'") {
+                    inQuote = c;
+                } else if (c === '#' && (i === 0 || /\s/.test(line[i - 1]))) {
+                    return line.slice(0, i);
+                }
+            }
+            return line;
+        }
+
+        function parseYamlScalar(v) {
+            v = v.trim();
+            if (!v) return '';
+            if ((v[0] === '"' && v[v.length - 1] === '"') || (v[0] === "'" && v[v.length - 1] === "'")) {
+                return v.slice(1, -1).replace(/\\n/g, '\n').replace(/\\t/g, '\t').replace(/\\(.)/g, '$1');
+            }
+            if (/^(true|yes)$/i.test(v)) return true;
+            if (/^(false|no)$/i.test(v)) return false;
+            if (v === 'null' || v === '~') return null;
+            if (/^-?\d+$/.test(v)) return parseInt(v, 10);
+            if (/^-?\d*\.\d+$/.test(v)) return parseFloat(v);
+            if (v.startsWith('{') || v.startsWith('[')) return parseYamlFlow(v);
+            return v;
+        }
+
+        // 解析单行 flow 集合：{k: v, ...} 与 [a, b, ...]，支持嵌套与引号
+        function parseYamlFlow(s) {
+            let pos = 0;
+            const skipWs = () => { while (pos < s.length && /\s/.test(s[pos])) pos++; };
+            const parseQuoted = () => {
+                const q = s[pos++];
+                let out = '';
+                while (pos < s.length && s[pos] !== q) {
+                    if (q === '"' && s[pos] === '\\') {
+                        pos++;
+                        const c = s[pos];
+                        out += c === 'n' ? '\n' : c === 't' ? '\t' : c;
+                    } else {
+                        out += s[pos];
+                    }
+                    pos++;
+                }
+                pos++;
+                return out;
+            };
+            const parseValue = () => {
+                skipWs();
+                const c = s[pos];
+                if (c === '{') return parseMap();
+                if (c === '[') return parseArr();
+                if (c === '"' || c === "'") return parseQuoted();
+                const start = pos;
+                while (pos < s.length && !/[,\}\]]/.test(s[pos])) pos++;
+                return parseYamlScalar(s.slice(start, pos));
+            };
+            const parseMap = () => {
+                pos++;
+                const obj = {};
+                skipWs();
+                if (s[pos] === '}') { pos++; return obj; }
+                while (pos < s.length) {
+                    skipWs();
+                    let key;
+                    if (s[pos] === '"' || s[pos] === "'") {
+                        key = parseQuoted();
+                    } else {
+                        const st = pos;
+                        while (pos < s.length && s[pos] !== ':') pos++;
+                        key = s.slice(st, pos).trim();
+                    }
+                    pos++; // ':'
+                    obj[key] = parseValue();
+                    skipWs();
+                    if (s[pos] === ',') { pos++; continue; }
+                    if (s[pos] === '}') { pos++; break; }
+                    break;
+                }
+                return obj;
+            };
+            const parseArr = () => {
+                pos++;
+                const arr = [];
+                skipWs();
+                if (s[pos] === ']') { pos++; return arr; }
+                while (pos < s.length) {
+                    arr.push(parseValue());
+                    skipWs();
+                    if (s[pos] === ',') { pos++; continue; }
+                    if (s[pos] === ']') { pos++; break; }
+                    break;
+                }
+                return arr;
+            };
+            skipWs();
+            try { return parseValue(); } catch (e) { return null; }
+        }
+
+        /**
+         * 解析 Clash/Mihomo 配置文本中顶层 proxies: 列表，返回代理对象数组。
+         * 支持 block 风格（含嵌套 ws-opts 等）与单行 flow 风格条目
+         */
+        function parseYamlProxies(text) {
+            const lines = text.split(/\r?\n/);
+            let start = -1;
+            for (let k = 0; k < lines.length; k++) {
+                if (/^proxies:\s*(#.*)?$/.test(lines[k])) { start = k + 1; break; }
+                const m = lines[k].match(/^proxies:\s*(\S.*)$/);
+                if (m) {
+                    const inline = parseYamlFlow(m[1]);
+                    return Array.isArray(inline) ? inline.filter(o => o && typeof o === 'object') : [];
+                }
+            }
+            if (start < 0) return [];
+
+            const out = [];
+            let cur = null;
+            let stack = [];
+            const applyKV = (text2, indent) => {
+                while (stack.length && indent < stack[stack.length - 1].indent) stack.pop();
+                const container = stack.length ? stack[stack.length - 1].obj : cur;
+                const ci = text2.indexOf(':');
+                if (ci < 0) return;
+                const key = text2.slice(0, ci).trim().replace(/^["']|["']$/g, '');
+                if (!key) return;
+                const val = text2.slice(ci + 1).trim();
+                if (val === '') {
+                    const child = {};
+                    container[key] = child;
+                    stack.push({ indent: indent + 1, obj: child });
+                } else {
+                    container[key] = parseYamlScalar(val);
+                }
+            };
+            for (let k = start; k < lines.length; k++) {
+                const line = stripYamlComment(lines[k]);
+                if (!line.trim()) continue;
+                const indent = line.match(/^ */)[0].length;
+                if (indent === 0) break; // 下一个顶层键，proxies 列表结束
+                const body = line.trim();
+                if (body === '-' || body.startsWith('- ')) {
+                    const rest = body === '-' ? '' : body.slice(1).trim();
+                    if (rest.startsWith('{') || rest.startsWith('[')) {
+                        const obj = parseYamlFlow(rest);
+                        if (obj && typeof obj === 'object' && !Array.isArray(obj)) out.push(obj);
+                        cur = null;
+                        stack = [];
+                    } else {
+                        cur = {};
+                        out.push(cur);
+                        stack = [{ indent: indent + 1, obj: cur }];
+                        if (rest) applyKV(rest, indent + 2);
+                    }
+                } else if (cur) {
+                    applyKV(body, indent);
+                }
+            }
+            return out.filter(o => o && o.type);
+        }
+
+        /* ---------- Clash 代理对象 → 面板节点（含分享链接） ---------- */
+
+        function utf8b64(str) {
+            const bytes = new TextEncoder().encode(str);
+            let bin = '';
+            bytes.forEach(b => { bin += String.fromCharCode(b); });
+            return btoa(bin);
+        }
+
+        function utf8b64Url(str) {
+            return utf8b64(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        }
+
+        // URL-safe base64 解码（SSR 规范使用 urlsafe 字母表），按 UTF-8 还原文本
+        function b64u8Decode(s) {
+            const bin = atob(String(s).replace(/-/g, '+').replace(/_/g, '/'));
+            const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+            return new TextDecoder().decode(bytes);
+        }
+
+        function uriParams(obj) {
+            return Object.entries(obj)
+                .filter(([, v]) => v !== undefined && v !== null && v !== '')
+                .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+                .join('&');
+        }
+
+        /**
+         * 把 Clash/Mihomo 代理对象转换为面板节点；生成标准分享链接作为 raw，
+         * 面板不支持的类型回退为 YAML flow 行（仍可复制、可再导入内核）
+         */
+        function clashProxyToNode(p) {
+            if (!p || typeof p !== 'object' || !p.type || !p.server) return null;
+            const port = parseInt(p.port, 10);
+            if (!(port >= 1 && port <= 65535)) return null;
+            const type = String(p.type).toLowerCase();
+            const insecure = p['skip-cert-verify'] === true ? '1' : undefined;
+            const net = (p.network && p.network !== 'tcp') ? String(p.network) : undefined;
+            const ws = p['ws-opts'] || {};
+            const wsHost = ws.headers ? (ws.headers.Host || ws.headers.host) : undefined;
+            const grpcSvc = p['grpc-opts'] && p['grpc-opts']['grpc-service-name'];
+            const alpn = p.alpn ? (Array.isArray(p.alpn) ? p.alpn.join(',') : String(p.alpn)) : undefined;
+            // 反向：把 mihomo 的 xhttp-opts / h2-opts / http-opts / ws-opts 还原为节点的 path/host/mode
+            const transportToNode = () => {
+                if (net === 'xhttp') {
+                    const xo = p['xhttp-opts'] || {};
+                    node.path = String(xo.path || '/');
+                    if (xo.host) node.host = String(xo.host);
+                    if (xo.mode) node.mode = String(xo.mode);
+                } else if (net === 'h2') {
+                    const ho = p['h2-opts'] || {};
+                    node.path = String((ho.path && ho.path[0]) || '/');
+                    if (ho.host && ho.host[0]) node.host = String(ho.host[0]);
+                } else if (net === 'http') {
+                    const ht = p['http-opts'] || {};
+                    node.path = String((ht.path && ht.path[0]) || '/');
+                    const hh = ht.headers && (ht.headers.Host || ht.headers.host);
+                    if (hh && hh[0]) node.host = String(hh[0]);
+                } else if (net === 'ws' || net === 'httpupgrade') {
+                    node.path = String(ws.path || '/');
+                    if (wsHost) node.host = String(wsHost);
+                }
+                if (grpcSvc) node.serviceName = String(grpcSvc);
+            };
+
+            const node = { type, name: String(p.name || `${type}-${p.server}`), server: String(p.server), port: String(port) };
+            switch (type) {
+                case 'ss':
+                    if (!p.cipher || p.password === undefined) return null;
+                    node.method = String(p.cipher);
+                    node.password = String(p.password);
+                    if (p.plugin) {
+                        node.plugin = String(p.plugin);
+                        const po = p['plugin-opts'] || {};
+                        node.pluginOpts = {};
+                        if (po.mode) node.pluginOpts.mode = String(po.mode);
+                        if (po.host) node.pluginOpts.host = String(po.host);
+                        if (po.path) node.pluginOpts.path = String(po.path);
+                        if (po.tls) node.pluginOpts.tls = '1';
+                    }
+                    break;
+                case 'ssr':
+                    if (!p.cipher) return null;
+                    node.method = String(p.cipher);
+                    node.password = String(p.password || '');
+                    node.protocol = String(p.protocol || 'origin');
+                    node.obfs = String(p.obfs || 'plain');
+                    if (p['obfs-param']) node.obfsParam = String(p['obfs-param']);
+                    if (p['protocol-param']) node.protocolParam = String(p['protocol-param']);
+                    break;
+                case 'vmess':
+                    if (!p.uuid) return null;
+                    node.uuid = String(p.uuid);
+                    node.alterId = String(p.alterId || 0);
+                    node.cipher = String(p.cipher || 'auto');
+                    if (p.tls) node.tls = 'tls';
+                    if (p.servername) node.sni = String(p.servername);
+                    if (net) { node.network = net; transportToNode(); }
+                    break;
+                case 'vless': {
+                    if (!p.uuid) return null;
+                    node.uuid = String(p.uuid);
+                    const reality = p['reality-opts'];
+                    node.security = p.tls ? (reality ? 'reality' : 'tls') : '';
+                    if (p.servername) node.sni = String(p.servername);
+                    if (p.flow) node.flow = String(p.flow);
+                    if (net) { node.network = net; transportToNode(); }
+                    if (reality && reality['public-key']) {
+                        node.pbk = String(reality['public-key']);
+                        if (reality['short-id']) node.sid = String(reality['short-id']);
+                    }
+                    if (p['client-fingerprint']) node.fp = String(p['client-fingerprint']);
+                    if (p.fingerprint) node.pcs = String(p.fingerprint);
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                }
+                case 'trojan':
+                    if (p.password === undefined) return null;
+                    node.password = String(p.password);
+                    if (p.sni) node.sni = String(p.sni);
+                    if (net) { node.network = net; transportToNode(); }
+                    if (p.fingerprint) node.pcs = String(p.fingerprint);
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                case 'hysteria':
+                    node.auth = String(p['auth-str'] || '');
+                    node.upmbps = String(p.up || '');
+                    node.downmbps = String(p.down || '');
+                    if (p.sni) node.peer = String(p.sni);
+                    if (p.obfs) node.obfs = String(p.obfs);
+                    if (p.protocol) node.protocol = String(p.protocol);
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                case 'hysteria2':
+                    node.auth = String(p.password || '');
+                    if (p.sni) node.sni = String(p.sni);
+                    if (p.ports) node.ports = String(p.ports);
+                    if (p.obfs) {
+                        node.obfs = String(p.obfs);
+                        if (p['obfs-password']) node.obfsPassword = String(p['obfs-password']);
+                    }
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                case 'tuic':
+                    if (p.token) {
+                        node.token = String(p.token);
+                    } else {
+                        if (!p.uuid) return null;
+                        node.uuid = String(p.uuid);
+                        node.password = String(p.password || '');
+                    }
+                    if (p.sni) node.sni = String(p.sni);
+                    if (p['congestion-controller']) node.congestion_control = String(p['congestion-controller']);
+                    if (p['udp-relay-mode']) node.udp_relay_mode = String(p['udp-relay-mode']);
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                case 'anytls':
+                    if (p.username) {
+                        node.username = String(p.username);
+                        node.password = String(p.password || '');
+                    } else {
+                        node.uuid = String(p.password || '');
+                    }
+                    if (p.sni) node.sni = String(p.sni);
+                    if (alpn) node.alpn = alpn;
+                    if (insecure) node.insecure = insecure;
+                    break;
+                case 'socks5':
+                    if (p.username) {
+                        node.username = String(p.username);
+                        node.password = String(p.password || '');
+                    }
+                    break;
+                case 'http':
+                    node.type = p.tls ? 'https' : 'http';
+                    if (p.username) {
+                        node.username = String(p.username);
+                        node.password = String(p.password || '');
+                    }
+                    if (p.tls && insecure) node.insecure = insecure;
+                    break;
+                default:
+                    return null;
+            }
+
+            let country = extractCountryFromName(node.name);
+            if (!country || country === 'UN') country = guessCountry(node.server);
+            node.country = country || 'UN';
+
+            node.raw = clashProxyToUri(node) || yamlValue(p);
+            return node;
+        }
+
+        // 面板节点 → 标准分享链接（与面板自身解析器相互兼容）；不支持的类型返回 null
+        function clashProxyToUri(node) {
+            const nameEnc = encodeURIComponent(node.name);
+            const hostport = `${node.server}:${node.port}`;
+            const withParams = (base, params) => {
+                const qs = uriParams(params);
+                return qs ? `${base}?${qs}` : base;
+            };
+            switch (node.type) {
+                case 'ss': {
+                    let link = `ss://${utf8b64(`${node.method}:${node.password}`)}@${hostport}`;
+                    if (node.plugin) {
+                        const po = node.pluginOpts || {};
+                        let pv = node.plugin === 'obfs' ? 'obfs-local' : node.plugin;
+                        if (node.plugin === 'obfs') {
+                            // 节点上可能是 mihomo 键（mode/host）或 SIP002 键（obfs/obfs-host）
+                            const mode = po.mode || po.obfs;
+                            const host = po.host || po['obfs-host'];
+                            if (mode) pv += `;obfs=${mode}`;
+                            if (host) pv += `;obfs-host=${host}`;
+                        } else {
+                            if (po.mode) pv += `;mode=${po.mode}`;
+                            if (po.host) pv += `;host=${po.host}`;
+                            if (po.path) pv += `;path=${po.path}`;
+                            if (isTrueParam(po.tls)) pv += ';tls';
+                        }
+                        link += `?plugin=${encodeURIComponent(pv)}`;
+                    }
+                    return link + `#${nameEnc}`;
+                }
+                case 'ssr': {
+                    const main = `${node.server}:${node.port}:${node.protocol || 'origin'}:${node.method}:${node.obfs || 'plain'}:${utf8b64Url(node.password || '')}`;
+                    const qs = [];
+                    if (node.obfsParam) qs.push(`obfsparam=${utf8b64Url(node.obfsParam)}`);
+                    if (node.protocolParam) qs.push(`protoparam=${utf8b64Url(node.protocolParam)}`);
+                    qs.push(`remarks=${utf8b64Url(node.name)}`);
+                    return `ssr://${utf8b64Url(`${main}/?${qs.join('&')}`)}`;
+                }
+                case 'vmess': {
+                    const payload = {
+                        v: '2', ps: node.name, add: node.server, port: String(node.port),
+                        id: node.uuid, aid: String(node.alterId || 0), scy: node.cipher || 'auto',
+                        net: node.network || 'tcp', type: '', host: node.host || '', path: node.path || '',
+                        tls: node.tls ? 'tls' : '', sni: node.sni || ''
+                    };
+                    return `vmess://${utf8b64(JSON.stringify(payload))}`;
+                }
+                case 'vless':
+                    return withParams(`vless://${node.uuid}@${hostport}`, {
+                        encryption: 'none', security: node.security, sni: node.sni, fp: node.fp,
+                        pbk: node.pbk, sid: node.sid, type: node.network, host: node.host,
+                        path: node.path, mode: node.mode, flow: node.flow, alpn: node.alpn,
+                        serviceName: node.serviceName, insecure: node.insecure, pcs: node.pcs
+                    }) + `#${nameEnc}`;
+                case 'trojan':
+                    return withParams(`trojan://${node.password}@${hostport}`, {
+                        sni: node.sni, type: node.network, host: node.host, path: node.path,
+                        serviceName: node.serviceName, alpn: node.alpn,
+                        insecure: node.insecure, allowInsecure: node.insecure, pcs: node.pcs
+                    }) + `#${nameEnc}`;
+                case 'hysteria2':
+                    return withParams(`hysteria2://${node.auth}@${hostport}`, {
+                        sni: node.sni, obfs: node.obfs, 'obfs-password': node.obfsPassword,
+                        mport: node.ports, alpn: node.alpn, insecure: node.insecure
+                    }) + `#${nameEnc}`;
+                case 'hysteria':
+                    return withParams(`hysteria://${hostport}`, {
+                        auth: node.auth, peer: node.peer, upmbps: node.upmbps, downmbps: node.downmbps,
+                        obfs: node.obfs, protocol: node.protocol, alpn: node.alpn, insecure: node.insecure
+                    }) + `#${nameEnc}`;
+                case 'tuic':
+                    return withParams(node.token
+                        ? `tuic://${node.token}@${hostport}`
+                        : `tuic://${node.uuid}:${node.password}@${hostport}`, {
+                        sni: node.sni, alpn: node.alpn, congestion_control: node.congestion_control,
+                        'udp-relay-mode': node.udp_relay_mode, insecure: node.insecure
+                    }) + `#${nameEnc}`;
+                case 'anytls':
+                    return withParams(node.username
+                        ? `anytls://${encodeURIComponent(node.username)}:${encodeURIComponent(node.password || '')}@${hostport}`
+                        : `anytls://${node.uuid}@${hostport}`, {
+                        sni: node.sni, insecure: node.insecure, alpn: node.alpn
+                    }) + `#${nameEnc}`;
+                case 'socks5':
+                    return (node.username
+                        ? `socks5://${encodeURIComponent(node.username)}:${encodeURIComponent(node.password || '')}@${hostport}`
+                        : `socks5://${hostport}`) + `#${nameEnc}`;
+                case 'https':
+                case 'http':
+                    return (node.username
+                        ? `${node.type}://${encodeURIComponent(node.username)}:${encodeURIComponent(node.password || '')}@${hostport}`
+                        : `${node.type}://${hostport}`) + `#${nameEnc}`;
+                default:
+                    return null;
+            }
+        }
+
+        // 用配置文本（Clash/Mihomo YAML）中的同名 proxies 条目，补全面板中缺连接信息的节点
+        function enrichNodesFromConfigText(text) {
+            const proxies = parseYamlProxies(text);
+            if (!proxies.length) return 0;
+            const byName = new Map();
+            proxies.forEach(p => { if (p && p.name) byName.set(String(p.name).trim(), p); });
+            let count = 0;
+            allNodes.forEach(n => {
+                if (n.raw) return;
+                const p = byName.get(String(n.name).trim());
+                if (!p) return;
+                const full = clashProxyToNode(p);
+                if (full) { Object.assign(n, full); count++; }
+            });
+            return count;
+        }
+
+        /**
+         * 从运行中的内核读取当前内存配置里的节点：
+         * 1. GET /proxies 拿到内核内存实况（剔除 DIRECT/REJECT 与代理组）
+         * 2. 与快照按内核节点名核对，在内存中的恢复完整连接信息
+         * 3. 快照之外的节点可从内核配置文件（config.yaml）按名称补全连接参数
+         */
+        async function loadFromCore() {
+            if (loadingFromCore) return;
+            if (allNodes.length > 0 && !confirm(`当前面板已有 ${allNodes.length} 个节点，读取将替换为内核内存中的节点，是否继续？`)) return;
+
+            loadingFromCore = true;
+            const btn = document.getElementById('loadCoreBtn');
+            btn.disabled = true;
+            btn.textContent = '🧠 读取中...';
+
+            try {
+                let vres;
+                try {
+                    vres = await coreFetch('/version');
+                } catch (e) {
+                    vres = { ok: false, status: 0 };
+                }
+                if (!vres.ok) {
+                    const d = await diagnoseCoreConnection();
+                    alert('无法连接本地 Mihomo/Clash 内核 API。\n\n' + (d.message || '请检查 API 地址与 Secret。'));
+                    return;
+                }
+
+                const proxies = (await (await coreFetch('/proxies')).json()).proxies || {};
+                const real = Object.values(proxies).filter(p => p && p.name
+                    && !CORE_BUILTIN_NAMES.has(p.name) && !CORE_GROUP_TYPES.has(p.type));
+
+                const snapshot = loadCoreSnapshot();
+                const inCore = new Set(real.map(p => p.name));
+                const restored = [];
+                snapshot.forEach(saved => {
+                    const key = String(saved.coreName || saved.name || '');
+                    if (!key || !inCore.has(key)) return;
+                    const p = proxies[key];
+                    const node = Object.assign({}, saved);
+                    node.name = p.name;
+                    node.coreName = p.name;
+                    const hist = coreLatestDelay(p.history);
+                    node.latency = hist !== null ? hist : (typeof saved.latency === 'number' ? saved.latency : null);
+                    restored.push(node);
+                });
+                const restoredNames = new Set(restored.map(n => n.name));
+                const coreOnly = real.filter(p => !restoredNames.has(p.name)).map(makeCoreOnlyNode);
+
+                allNodes = restored.concat(coreOnly);
+                renderNodeList();
+
+                // 快照之外的节点：内核 API 不下发连接参数，询问是否从内核配置文件补全
+                let enriched = 0, configNote = '';
+                if (coreOnly.length > 0) {
+                    const ok = confirm(
+                        `有 ${coreOnly.length} 个节点的连接参数（地址、端口、密码等）无法从内核 API 读取。\n\n` +
+                        '可以通过选择内核的配置文件（如 config.yaml）按名称补全这些节点的完整信息，是否选择配置文件？\n\n' +
+                        '（取消则仅显示节点名称与类型）'
+                    );
+                    if (ok) {
+                        const text = await pickConfigFile();
+                        if (text) {
+                            enriched = enrichNodesFromConfigText(text);
+                            if (enriched === 0) {
+                                configNote = '所选配置文件中没有与这些节点同名的 proxies 条目（若内核使用 proxy-providers 订阅，节点参数在订阅链接里，配置文件中没有）。';
+                            }
+                        }
+                    }
+                }
+                if (enriched > 0) {
+                    saveCoreSnapshot();
+                    renderNodeList();
+                }
+
+                const fullCount = restored.length + enriched;
+                let msg;
+                if (allNodes.length === 0) {
+                    msg = '内核内存中没有找到任何实节点（可能只有 DIRECT/REJECT 或代理组）。';
+                } else {
+                    msg = `已从内核内存读取 ${allNodes.length} 个节点（其中 ${fullCount} 个还原了完整连接信息）。`;
+                    const limited = allNodes.length - fullCount;
+                    if (limited > 0) {
+                        msg += `\n\n另有 ${limited} 个节点缺少连接参数，无法显示地址与复制` + (configNote ? `：${configNote}` : '。');
+                    }
+                    if (snapshot.length > 0 && restored.length === 0 && enriched === 0) {
+                        msg = '内核内存中的节点与面板保存的快照不一致（内核可能已重启或重新加载了配置）。\n\n' + msg;
+                    }
+                }
+                alert(msg);
+            } catch (e) {
+                console.error('Load from core error:', e);
+                alert('读取内核内存节点失败：' + (e.message || e));
+            } finally {
+                loadingFromCore = false;
+                btn.disabled = false;
+                btn.textContent = '🧠 读取内存节点';
+            }
+        }
+
+        // 渲染当前节点列表并重置筛选、回填输入框
+        function renderNodeList() {
+            activeFilters = { protocol: 'all', country: 'all' };
+            document.querySelectorAll('#protocolFilter .tag, #countryFilter .tag').forEach(t => {
+                t.classList.toggle('active', t.getAttribute('data-filter') === 'all');
+            });
+            document.getElementById('nodeInput').value = allNodes.map(n => n.raw).filter(Boolean).join('\n');
+            renderLimit = RENDER_CAP;
+            updateStats();
+            updateCountryFilter();
+            renderNodes();
+        }
+
+        function renderNodes() {
+            const grid = document.getElementById('nodesGrid');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
             
-            return `
-                <div class="node-card" onclick="showNodeDetail(${idx})">
+            let filtered = allNodes.filter(node => {
+                if (activeFilters.protocol !== 'all' && node.type !== activeFilters.protocol) {
+                    return false;
+                }
+                
+                if (activeFilters.country !== 'all' && node.country !== activeFilters.country) {
+                    return false;
+                }
+                
+                if (hideTimeoutNodes && (node.latency === 'timeout' || node.latency === 'error')) {
+                    return false;
+                }
+                
+                if (searchTerm) {
+                    const searchIn = `${node.name} ${node.server} ${node.type} ${node.country}`.toLowerCase();
+                    if (!searchIn.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+
+            const totalFiltered = filtered.length;
+            const shown = filtered.slice(0, renderLimit);
+
+            grid.innerHTML = shown.map((node, index) => {
+                const nodeIndex = allNodes.indexOf(node);
+                const latencyClass = getLatencyClass(node.latency);
+                const latencyText = getLatencyText(node.latency);
+                
+                return `
+                <div class="node-card">
                     <div class="node-header">
                         <span class="node-flag">${getCountryFlag(node.country)}</span>
                         <div class="node-info">
-                            <div class="node-name">${fixUTF8Encoding(node.name || '未命名')}</div>
-                            <div class="node-location">${countryNames[node.country] || node.country || '未知'}</div>
+                            <div class="node-name">${escapeHtml(node.name)}</div>
+                            <div class="node-location">${node.country} - ${node.type.toUpperCase()}</div>
                         </div>
                         <span class="node-type type-${node.type}">${node.type}</span>
                     </div>
-                    <div class="node-latency ${latencyClass}">${latencyText}</div>
                     <div class="node-details">
-                        ${node.server ? `<div class="node-detail">📍 ${node.server}:${node.port}</div>` : ''}
+                        ${node.raw
+                            ? `<div class="node-detail">📍 ${escapeHtml(node.server)}</div>
+                        <div class="node-detail">🔌 ${escapeHtml(node.port)}</div>`
+                            : `<div class="node-detail node-detail-missing">⚠️ 内核API不下发地址端口，无法复制；可重新读取并选择内核配置文件补全</div>`}
+                    </div>
+                    <div class="node-latency ${latencyClass}" onclick="retestNode(${nodeIndex})" title="${node.coreName ? '点击重新测试' : '真连接测试后可点击单独重测'}">
+                        ${latencyText}
                     </div>
                     <div class="node-actions">
-                        <button class="btn btn-small btn-primary" onclick="copyNode(event, ${idx})">复制</button>
-                        <button class="btn btn-small btn-secondary" onclick="deleteNode(event, ${idx})">删除</button>
+                        <button class="btn btn-primary btn-small" onclick="copyNode(${nodeIndex})">📋 复制</button>
+                        <button class="btn btn-info btn-small" onclick="showDetails(${nodeIndex})">ℹ️ 详情</button>
                     </div>
                 </div>
-            `;
-        }
+                `;
+            }).join('');
 
-        // ==================== 过滤和搜索 ====================
-        function toggleFilter(element, type) {
-            document.querySelectorAll(`#${type}Filter .tag`).forEach(t => t.classList.remove('active'));
-            element.classList.add('active');
-            activeFilters[type] = element.dataset.filter;
-            renderLimit = RENDER_CAP;
-            renderNodes();
+            document.getElementById('displayedNodes').textContent = shown.length;
+            const moreBtn = document.getElementById('loadMoreBtn');
+            if (totalFiltered > shown.length) {
+                moreBtn.style.display = 'inline-block';
+                moreBtn.textContent = `⬇️ 加载更多（剩余 ${totalFiltered - shown.length} 个）`;
+            } else {
+                moreBtn.style.display = 'none';
+            }
         }
 
         function updateStats() {
             document.getElementById('totalNodes').textContent = allNodes.length;
-            const countries = new Set(allNodes.map(n => n.country).filter(Boolean));
-            const protocols = new Set(allNodes.map(n => n.type).filter(Boolean));
+            
+            const countries = new Set(allNodes.map(n => n.country));
             document.getElementById('countryCount').textContent = countries.size;
+            
+            const protocols = new Set(allNodes.map(n => n.type));
             document.getElementById('protocolCount').textContent = protocols.size;
         }
 
         function updateCountryFilter() {
-            const countries = [...new Set(allNodes.map(n => n.country).filter(Boolean))].sort();
-            const container = document.getElementById('countryFilter');
-            container.innerHTML = '<span class="tag active" data-filter="all" onclick="toggleFilter(this, \'country\')">全部</span>';
-            countries.forEach(code => {
-                const name = countryNames[code] || code;
-                container.innerHTML += `<span class="tag" data-filter="${code}" onclick="toggleFilter(this, 'country')">${getCountryFlag(code)} ${name}</span>`;
+            const countries = [...new Set(allNodes.map(n => n.country))].sort();
+            const filterDiv = document.getElementById('countryFilter');
+            
+            const allTag = filterDiv.querySelector('[data-filter="all"]');
+            filterDiv.innerHTML = '';
+            filterDiv.appendChild(allTag);
+            
+            countries.forEach(country => {
+                const tag = document.createElement('span');
+                tag.className = 'tag';
+                tag.setAttribute('data-filter', country);
+                const countryName = countryNames[country] || country;
+                tag.textContent = `${getCountryFlag(country)} ${countryName}`;
+                tag.onclick = function() { toggleFilter(this, 'country'); };
+                filterDiv.appendChild(tag);
             });
         }
 
-        // ==================== 节点操作 ====================
-        function copyNode(e, idx) {
-            e.stopPropagation();
-            const node = allNodes[idx];
-            // 根据协议类型生成对应格式的节点字符串
-            const nodeStr = generateNodeString(node);
-            navigator.clipboard.writeText(nodeStr);
-            showToast('✅ 已复制节点');
-        }
-
-        function deleteNode(e, idx) {
-            e.stopPropagation();
-            allNodes.splice(idx, 1);
-            updateStats();
+        function toggleFilter(element, type) {
+            const parent = element.parentElement;
+            parent.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+            element.classList.add('active');
+            
+            activeFilters[type] = element.getAttribute('data-filter');
             renderNodes();
         }
 
-        function showNodeDetail(idx) {
-            const node = allNodes[idx];
-            const html = Object.entries(node)
-                .filter(([k, v]) => v !== null && v !== undefined && k !== 'latency')
-                .map(([k, v]) => `
-                    <div class="info-item">
-                        <div class="info-label">${fieldTranslations[k] || k}</div>
-                        <div class="info-value">${fixUTF8Encoding(String(v))}</div>
-                    </div>
-                `).join('');
-            
-            document.getElementById('modalBody').innerHTML = html;
-            document.getElementById('detailModal').classList.add('active');
+        function filterNodes() {
+            renderNodes();
+        }
+
+        function copyNode(index) {
+            const node = allNodes[index];
+            if (!node.raw) {
+                alert('该节点来自内核内存，缺少完整连接信息（内核 API 不提供），无法复制分享链接');
+                return;
+            }
+            navigator.clipboard.writeText(node.raw).then(() => {
+                alert('节点已复制到剪贴板');
+            });
         }
 
         function copyAllNodes() {
             const filtered = getFilteredNodes();
-            const text = filtered.map(generateNodeString).join('\n');
-            navigator.clipboard.writeText(text);
-            showToast(`✅ 已复制 ${filtered.length} 个节点`);
+            const text = filtered.map(n => n.raw).filter(Boolean).join('\n');
+            if (!text) {
+                alert('当前列表中没有可复制的节点链接');
+                return;
+            }
+            const copied = text.split('\n').length;
+            navigator.clipboard.writeText(text).then(() => {
+                const limited = filtered.length - copied;
+                alert(copied === filtered.length
+                    ? `已复制 ${copied} 个节点到剪贴板`
+                    : `已复制 ${copied} 个节点到剪贴板（另有 ${limited} 个内核内存节点缺少连接信息，未复制；可点击「读取内存节点」并选择内核配置文件补全）`);
+            });
         }
 
-        function generateNodeString(node) {
-            // TODO: 根据 node.type 生成对应格式的节点字符串
-            return JSON.stringify(node);
+        function getFilteredNodes() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            return allNodes.filter(node => {
+                if (activeFilters.protocol !== 'all' && node.type !== activeFilters.protocol) return false;
+                if (activeFilters.country !== 'all' && node.country !== activeFilters.country) return false;
+                if (hideTimeoutNodes && (node.latency === 'timeout' || node.latency === 'error')) return false;
+                if (searchTerm) {
+                    const searchIn = `${node.name} ${node.server} ${node.type} ${node.country}`.toLowerCase();
+                    if (!searchIn.includes(searchTerm)) return false;
+                }
+                return true;
+            });
         }
 
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-error';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+        function showDetails(index) {
+            const node = allNodes[index];
+            const modal = document.getElementById('detailModal');
+            const body = document.getElementById('modalBody');
+            
+            body.innerHTML = Object.entries(node)
+                .filter(([key, value]) => key !== 'raw' && (value === null || typeof value !== 'object'))
+                .map(([key, value]) => `
+                    <div class="info-item">
+                        <div class="info-label">${translateFieldName(key)}</div>
+                        <div class="info-value">${escapeHtml(String(value || ''))}</div>
+                    </div>
+                `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function clearInput() {
+            document.getElementById('nodeInput').value = '';
         }
 
         function showExample() {
-            document.getElementById('nodeInput').value = 'ss://YWVzLTI1Ni1nY206cGFzc3dvcmQ=@example.com:8388#Example-Node';
+            const examples = [
+                'vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@217.163.76.118:2086?encryption=none&security=none&type=xhttp&host=xvh.andishehparenting.com&path=%2F#%F0%9F%87%AB%F0%9F%87%AE%20%E8%8A%AC%E5%85%B0FI-1026',
+                'vless://04b3ed78-61b5-42bb-9143-eeb70e64b5aa@87.228.101.30:443?encryption=none&security=tls&sni=media-ru3.lbdnetwork.com&fp=qq&insecure=0&allowInsecure=0&type=xhttp&path=%2Fapi%2F#%F0%9F%87%A6%F0%9F%87%B9%20%E5%A5%A5%E5%9C%B0%E5%88%A9AT-1157',
+                'vless://6e5270b6-9f28-4bc6-8a41-9c197f33f4bb@104.17.21.32:8880?encryption=none&security=none&type=ws&host=autumn-dawn-fa6b.337-272.workers.dev&path=%2Fpyip%3DProxyIP.SG.CMLiussss.net#%F0%9F%87%AC%F0%9F%87%B7GR%20udptoos.com%2025.55MB%2Fs',
+                'trojan://29db38f0-e302-3768-8867-0b9bf00c77e4cmynw@gtm-6wr2p27i310-ng.gocmydns.com:767/?type=grpc&serviceName=mm_grpc&security=tls&sni=www.zueuqnpjvcllc.co&alpn=h2#%F0%9F%87%BC%F0%9F%87%B8%20IEPL-gRPC%EF%BD%9CTaiwan%20%5B1.0%5D%5B%E5%AE%B6%E5%AF%BD%5D',
+                'vless://5c6d8045-9de9-45e4-b495-463fc3f1a828@31.56.187.165:8113?encryption=none&security=reality&sni=westondigita.cloud&fp=edge&pbk=1XNcujMbWdVkVnPV4JvvIllMFdRXToudea_mqzXcMWg&sid=a4f8c92d&type=grpc&authority=&serviceName=grpc&mode=gun#%F0%9F%87%A6%F0%9F%87%AA%E9%98%BF%E8%81%94%E9%85%8B%20udptoos.com%2014.47MB%2Fs',
+                'https://84.239.49.201:9002?allowInsecure=1#RO%20-%20zhuhai.uk',
+                'socks://Og%3D%3D@168.107.13.220:50161#KR_1',
+                'socks5://123:123@43.100.43.112:3060#HK%20-%20zhuhai.uk',
+                'ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpNR1U0WmpWa01HTmhZMlkzWXpNME5tSXhNRGd5TkRRNU9HVmpaalkyWTJZPQ==@144.24.231.33:61312#GB%20-%20zhuhai.uk%2002',
+                'trojan://ba07a8af-5544-48ac-ab62-3b6c00a44fa6@oplosgru-c.catcat321.com:20023#TH%20-%20zhuhai.uk',
+                'vless://5e243126-4a2a-84b6-782a-73b14797fb5f@170.168.97.3:8443?headerType=grpc&security=tls&type=grpc#TR%20-%20zhuhai.uk',
+                'vmess://eyJhZGQiOiIxNzIuNjcuMTc2LjI0NSIsImFpZCI6MCwiaG9zdCI6ImNnMWMxMi53YWltYW9qZC5jb20iLCJpZCI6IjA2MzJiZmE5LWIxNWMtNDI1Ny04Yzc1LTMyZjdjMGM1M2IyNyIsIm5ldCI6IndzIiwicGF0aCI6Ii9hcGkvdjEvZ3JhcGhxbCIsInBvcnQiOjQ0MywicHMiOiJHQiAtIHpodWhhaS51ayIsInRscyI6InRscyIsInR5cGUiOiJub25lIiwidiI6Mn0=',
+                'hysteria://5.83.129.90:54177?alpn=h3&auth=dongtaiwang.com&insecure=1&peer=bing.com&upmbps=11&downmbps=55#%F0%9F%87%A9%F0%9F%87%AADE_4',
+                'anytls://859c0d9a-6d5c-4239-91ef-8b11ed2b0eed@m2c-jp5.399789.xyz:46641?sni=ygg.sevenka.top&insecure=1#%F0%9F%87%AC%F0%9F%87%A7%E8%8B%B1%E5%9B%BD02',
+                'tuic://859c0d9a-6d5c-4239-91ef-8b11ed2b0eed:859c0d9a@hkju.sevenka.top:60000?sni=hkju.sevenka.top&alpn=h3&congestion_control=bbr#HK%E9%A6%99%E6%B8%AF',
+                'vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.214.20:62145?encryption=none&security=none&type=tcp&headerType=none#%F0%9F%87%A8%F0%9F%87%B4CO%20zhuhai.uk%20%2015.01MB%2Fs'
+            ];
+            document.getElementById('nodeInput').value = examples.join('\n');
         }
 
-        function testAllViaCore() {
-            console.log('测试延迟...');
-            showToast('❌ 请先配置内核 API 地址');
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#x27;',
+                '`': '&#x60;',
+                '=': '&#x3D;',
+                '/': '&#x2F;'
+            };
+            // 容忍数字等非字符串输入（如 vmess JSON 里的数字端口），并覆盖属性上下文字符
+            return String(text ?? '').replace(/[&<>"'`=\/]/g, m => map[m]);
         }
 
-        function loadFromCore() {
-            console.log('从内核读取节点...');
-            showToast('❌ 请先配置内核 API 地址');
-        }
-
-        function clearCoreSnapshot() {
-            localStorage.removeItem('core_importedNodes');
-            showToast('✅ 已清除内存节点快照');
-        }
-
-        // ==================== 初始化 ====================
-        document.getElementById('searchBox').addEventListener('input', () => {
-            renderLimit = RENDER_CAP;
-            renderNodes();
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
         });
+
+        // 全局错误兜底：未捕获的异常与 Promise 拒绝以提示条呈现，不再静默丢失
+        function showErrorToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-error';
+            toast.textContent = String(message || '发生未知错误');
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        window.addEventListener('unhandledrejection', event => {
+            console.error('Unhandled rejection:', event.reason);
+            showErrorToast('操作失败：' + ((event.reason && event.reason.message) || event.reason));
+        });
+
+        window.addEventListener('error', event => {
+            console.error('Script error:', event.error || event.message);
+            showErrorToast('程序发生错误：' + ((event.error && event.error.message) || event.message));
+        });
+
+        // 真连接检测设置：读取/保存 localStorage
+        ['coreApi', 'coreSecret', 'coreTimeout', 'coreTestUrl'].forEach(id => {
+            const el = document.getElementById(id);
+            const saved = localStorage.getItem('core_' + id);
+            if (saved !== null && saved !== '') el.value = saved;
+            el.addEventListener('change', () => localStorage.setItem('core_' + id, el.value.trim()));
+        });
+
+        // 搜索输入防抖：大量节点时避免每次击键都全量重渲染
+        let searchDebounce = null;
+        document.getElementById('searchBox').addEventListener('input', () => {
+            clearTimeout(searchDebounce);
+            searchDebounce = setTimeout(filterNodes, 250);
+        });
+        const autoProxyEl = document.getElementById('coreAutoProxy');
+        autoProxyEl.checked = localStorage.getItem('core_coreAutoProxy') !== '0';
+        autoProxyEl.addEventListener('change', () => localStorage.setItem('core_coreAutoProxy', autoProxyEl.checked ? '1' : '0'));
+
+        updateStats();
     </script>
 </body>
 </html>
